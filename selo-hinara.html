@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Selo Secreto — Hinara</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+body {
+  background-image: url("imagens/hinara-tsu.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-color: #000;
+}
+
+    h1 {
+      color: #ec407a;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      background-color: #ec407a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #f06292;
+      transform: scale(1.05);
+    }
+
+    input {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 220px;
+      margin-top: 0.5rem;
+    }
+
+    #formularioSelo {
+      display: none;
+      margin-top: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    #senhaRevelada {
+      color: #ec407a;
+      font-weight: bold;
+      font-size: 1rem;
+      background: #fff0f5;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      display: inline-block;
+      box-shadow: 0 0 8px rgba(236, 64, 122, 0.3);
+    }
+
+    .legenda-selo {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="fundo-hinara"></div>
+
+<audio autoplay loop hidden>
+  <source src="audio/hinara-theme.mp3" type="audio/mpeg" />
+</audio>
+
+  <h1>🌸 Selo Secreto🌸  —</h1>
+  <p>Este portal está selado. Somente aqueles que conhecem a invocação podem acessar.</p>
+
+  <button onclick="invocarSelo()">Invocar Selo</button>
+
+  <div id="formularioSelo">
+    <p><strong>Senha revelada:</strong> <span id="senhaRevelada">byakugan</span></p>
+    <input type="password" id="senhaHinara" placeholder="Digite a senha revelada" />
+    <br />
+    <button onclick="verificarSenha()">Acessar</button>
+    <p class="legenda-selo">Se o selo for verdadeiro, o portal se abrirá.</p>
+  </div>
+
+  <script>
+    function invocarSelo() {
+      document.getElementById("formularioSelo").style.display = "block";
+    }
+
+    function verificarSenha() {
+      const senhaDigitada = document.getElementById("senhaHinara").value;
+      if (senhaDigitada === "byakugan") {
+        window.location.href = "galeria-hinara.html";
+      } else {
+        alert("Selo incorreto. A pétala não se abriu.");
+      }
+    }
+  </script>
+</body>
+</html>

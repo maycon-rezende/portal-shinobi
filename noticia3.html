@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Festa à Fantasia — Festival da Folha</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #1a1a1a, #111);
+      color: #fff;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    header img {
+      display: block;
+      max-width: 320px;
+      height: auto;
+      margin: 1.5rem auto;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(243, 0, 0, 0.4);
+      border: 4px solid #ffffff;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ff8a80;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px rgba(240, 98, 146, 0.5);
+    }
+
+    .data {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      margin-bottom: 1.4rem;
+      color: #eee;
+      opacity: 0;
+    }
+
+    .voltar {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #1a237e;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .voltar:hover {
+      background-color: #3949ab;
+      transform: rotate(-3deg) scale(1.05);
+    }
+
+    body.noticia-festival {
+      background: radial-gradient(circle at top, #3a1050, #000);
+      background-attachment: fixed;
+    }
+
+    .faisca {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 8px pink;
+      animation: flutuar 1s linear;
+      z-index: 9999;
+    }
+
+    @keyframes flutuar {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-20px); }
+    }
+
+    .galeria-festival {
+      max-width: 50%;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    .galeria-festival img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(236, 64, 122, 0.4);
+      transition: opacity 0.6s ease;
+    }
+  </style>
+</head>
+<body class="noticia-festival">
+
+  <div class="container">
+    <header>
+      <h1>A Festa à Fantasia — Festival da Folha</h1>
+      <img id="festaFantasia" src="imagens/kurosup2.png" alt="Festival Fantasia - Destaque" />
+    </header>
+
+    <main>
+      <p>No último festival da Vila da Folha, Hinara e Kurosaki surpreenderam todos ao surgirem vestidos como versões alternativas de heróis mitológicos: ele, com uma armadura reluzente de dragão cósmico; ela, como uma deusa guardiã de cura estelar.</p>
+
+      <p>A festa reuniu vários clãs e convidados de outras vilas, incluindo apresentações de taijutsu performático, desfile de máscaras e um concurso de imitação de invocações lendárias.</p>
+
+      <p>Hinara liderou a “Dança do Chakra” com movimentos místicos baseados no fluxo de energia da Lua Azul, enquanto Kurosaki soltou bolas de fogo sincronizadas com fogos de artifício reais — assustando até os jounins mais experientes. Fontes anônimas afirmam que o casal ganhou o troféu de Melhor Dupla da noite.</p>
+
+      <!-- 🌠 Galeria de imagens rotativas -->
+      <div class="galeria-festival">
+        <img id="galeriaFantasia" src="imagens/super-maravilha.png">
+      </div>
+
+      <div class="data">Publicado em 6 de Agosto de 2025</div>
+      <a href="index.html" class="voltar">← Voltar para o portal</a>
+    </main>
+  </div>
+
+  <!-- ✨ Efeitos visuais e animações -->
+  <script>
+    window.addEventListener("scroll", () => {
+      const brilho = document.createElement("div");
+      brilho.className = "faisca";
+      brilho.style.left = `${Math.random() * 100}%`;
+      brilho.style.top = `${window.scrollY + Math.random() * 100}px`;
+      document.body.appendChild(brilho);
+      setTimeout(() => brilho.remove(), 5000);
+    });
+
+    const paragrafos = document.querySelectorAll("main p");
+    paragrafos.forEach((p, i) => {
+      setTimeout(() => {
+        p.style.transition = "opacity 0.8s ease";
+        p.style.opacity = 1;
+      }, 600 * i);
+    });
+  </script>
+
+  <!-- 🖼️ Script da galeria rotativa -->
+  <script>
+    const imagensGaleria = [
+      "imagens/supermaravilha.png" ,
+      "imagens/kurosaki-sup-hinara-sup.png",
+      "imagens/super-1.png" ,
+      "imagens/super-girl.png" ,
+      "imagens/cat-bat.png" ,
+      "imagens/batcat.png" ,
+      "imagens/batman-batgirl.png" ,
+      "imagens/thor-feiticeira.png",
+      "imagens/sentry-escarlate.png" ,
+      "imagens/super-maravilha.png",
+      "imagens/moon and lady.png",
+      "imagens/bela.png" ,
+      "imagens/deusa-dragao.png" ,
+      "imagens/shazam.png" ,
+      "imagens/casal Shazam.png" ,
+      "imagens/mary-marvel.png" ,
+      "imagens/mary-adao.png" ,
+      "imagens/mara.png" ,
+      "imagens/aguamera.png" ,
+      "imagens/aquaman.png" ,
+    
+
+    ];
+
+    let indexGaleria = 0;
+    const galeriaEl = document.getElementById("galeriaFantasia");
+
+    setInterval(() => {
+      galeriaEl.style.opacity = 0;
+      setTimeout(() => {
+        galeriaEl.src = imagensGaleria[indexGaleria];
+        galeriaEl.style.opacity = 1;
+        indexGaleria = (indexGaleria + 1) % imagensGaleria.length;
+      }, 400);
+    }, 4200);
+  </script>
+  <script>
+    const galeriaImg = document.getElementById("galeriaFantasia");
+galeriaImg.onerror = () => {
+  galeriaImg.src = "imagens/frozen.png";
+};
+
+  </script>
+</body>
+</html>

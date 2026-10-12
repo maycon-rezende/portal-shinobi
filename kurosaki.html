@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kurosaki Uchiha - Portal Shinobi</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  header, nav {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #1a1a1a;
+  }
+
+  nav a {
+    margin: 0 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  nav a:hover {
+    background-color: #e53935;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(229, 57, 53, 0.6);
+  }
+
+  main {
+    max-width: 900px;
+    margin: auto;
+    background-color: #1f1f1f;
+    padding: 2rem;
+    border-left: 5px solid #e53935;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(229, 57, 53, 0.2);
+  }
+
+  h2 {
+    color: #e53935;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .imagem-kurosaki {
+    display: block;
+    max-width: 320px;
+    margin: 1.5rem auto;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgb(177, 1, 1);
+  }
+
+  .botao-linha-tempo {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: #e53935;
+    color: white;
+    font-weight: bold;
+    border-radius: 40px;
+    text-decoration: none;
+    margin: 1.5rem auto 0;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .botao-linha-tempo:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(53, 223, 229, 0.6);
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: #1a1a1a;
+    color: #aaa;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  .selo-kurosaki {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.selo-uchiha {
+  text-align: center;
+  margin: 3rem auto;
+}
+
+.selo-uchiha img {
+  width: 100px;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.4));
+  animation: pulsarSelo 3s infinite;
+}
+
+.selo-uchiha img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.6);
+}
+
+@keyframes pulsarSelo {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+
+</style>
+
+</head>
+<body>
+  <header>
+    <h1>Perfil de Ninja</h1>
+    <p>Uchiha Hyuuga Kurosaki Alucard</p>
+  </header>
+  <nav>
+  <ul style="display: flex; gap: 1rem; justify-content: center; list-style: none; padding: 1rem; background-color: #333;">
+    <li><a href="index.html" style="color: #fff; text-decoration: none;">Início</a></li>
+    <li><a href="kurosaki.html" style="color: #fff; text-decoration: none;">Kurosaki</a></li>
+    <li><a href="hinara.html" style="color: #fff; text-decoration: none;">Hinara</a></li>
+    <li><a href="galeria.html" style="color: #fff; text-decoration: none;">Galeria</a></li>
+    <li><a href="linha-do-tempo-kurosaki.html" style="color: #fff; text-decoration: none;">Tempo Kurosaki</a></li>
+    <li><a href="linha-do-tempo-hinara.html" style="color: #fff; text-decoration: none;">Tempo Hinara</a></li>
+    <li><a href="noticia1.html" style="color: #fff; text-decoration: none;">Notícia Principal</a></li>
+  </ul>
+</nav>
+
+
+  <div class="container">
+    <h2>Ficha Ninja</h2>
+    <div class="perfil">
+      <img src="imagens/kurosaki.png" alt="Kurosaki em modo dragão" class="imagem-kurosaki">
+      <div class="info">
+        <p><strong>Nome:</strong>Uchiha Hyuuga Kurosaki Nero.</p>
+        <p><strong>Clã:</strong> Uchiha (linha sanguínea pura) Hyuuga(linhagem sanguínea pura ramo principal).</p>
+        <p><strong>Especialidade:</strong> Genjutsu avançado, Jutsu de Névoa Oculta e Amaterasu elemental</p>
+        <p><strong>Status:</strong> Jonin Anbu — vigilante da fronteira ocidental de Konoha</p>
+        <p><strong>Curiosidade:</strong> Após treinar no Templo do Dragão Branco, Kurosaki despertou um novo tipo de chakra flamejante, fundindo o estilo fogo com dragões de fumaça.</p>
+        <p><strong>Parceira de batalha:</strong> Hinara Hyuuga</p>
+        <p><strong>Casado com:</strong> Hinara Hyuuga</p>
+      </div>
+    </div>
+
+    <h2>Resumo da Jornada</h2>
+    <p>
+      Nascido durante a reconstrução da Vila Oculta da Folha, Kurosaki demonstrou desde jovem afinidade incomum com o silêncio e a observação.
+      Seu domínio de ilusões avançadas rivaliza com os maiores Uchiha do passado. Ao lado de Hinara, ultrapassou missões que nem mesmo membros da ANBU ousariam enfrentar.
+    </p>
+    <p>
+      Atualmente, Kurosaki vive entre dois mundos: o do amor e o da guerra — protegendo a vila e treinando para conter ameaças além da fronteira do mundo shinobi.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 2rem;">
+  <a href="index.html" class="botao-linha-tempo" style="color: #fff; background-color: #f83333; padding: 0.6rem 1.2rem; border-radius: 4px; text-decoration: none; font-weight: bold;">
+    ← Voltar ao inicio
+  </a>
+</div>
+<div style="text-align: center; margin: 2rem 0;">
+ <a href="linha-do-tempo-kurosaki.html" class="botao-linha-tempo"> 📜 Ver Linha do Tempo do Kurosaki</a>
+
+    
+  </a>
+</div>
+<div class="selo-uchiha">
+  <a href="selo-kurosaki.html">
+    <img src="imagens/MSE.png" alt="Selo Secreto Uchiha" />
+  </a>
+</div>
+
+
+
+  <footer>
+    &copy; 2025 Portal Shinobi — Kurosaki Uchiha
+  </footer>
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const perfil = document.querySelector("main") || document.body;
+
+    perfil.style.boxShadow = "inset 0 0 120px rgba(255, 64, 64, 0.3)";
+    perfil.style.transition = "box-shadow 2s ease";
+
+    setTimeout(() => {
+      perfil.style.boxShadow = "inset 0 0 220px rgba(255, 0, 0, 0.5)";
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>

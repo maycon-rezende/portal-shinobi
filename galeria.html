@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeria de Memórias — Portal Shinobi</title>
+</head>
+
+<body>
+  <!-- Plano de fundo (chakra flutuante) -->
+  <canvas id="chakraCanvas"></canvas>
+  <header>
+    <h1>📸 Galeria de Memórias</h1>
+    <p>Momentos eternos de Hinara e Kurosaki</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="kurosaki.html">Kurosaki</a>
+    <a href="hinara.html">Hinara</a>
+    <a href="galeria.html" class="ativo">Galeria</a>
+  </nav>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+body {
+  background-image: url("imagens/gala-2.png");
+  background-size: cover;               /* cobre a tela inteira */
+  background-position: center top;      /* centraliza no topo */
+  background-repeat: no-repeat;         /* não repete */
+}
+
+
+    header {
+      background-color: rgba(26, 35, 126, 0.85);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.7);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.ativo {
+      background-color: #90caf9;
+      color: #1a237e;
+    }
+
+    .filtros {
+      text-align: center;
+      margin: 2rem auto;
+    }
+
+    .filtros button {
+      background: #e3f2fd;
+      border: 1px solid #90caf9;
+      padding: 0.6rem 1.4rem;
+      margin: 0.5rem;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filtros button:hover,
+    .filtros button.ativo {
+      background-color: #1a237e;
+      color: white;
+    }
+
+    .galeria {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .memoria {
+      background: white;
+      border-radius: 10px;
+      width: 280px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .memoria.visivel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .imagem-legenda {
+      position: relative;
+    }
+
+    .imagem-legenda img {
+      width: 100%;
+      display: block;
+    }
+
+    .legenda-sobreposta {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      color: white;
+      font-style: italic;
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    .selo-jutsu {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 1.2rem;
+      opacity: 0.4;
+    }
+
+    #ativarNoturno {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #1a237e;
+      color: white;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .voltar a {
+      background-color: #1a237e;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    .voltar a:hover {
+      background-color: #3949ab;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .memoria.kurosaki {
+      border-left: 5px solid #e53935;
+    }
+
+    .memoria.hinara {
+      border-left: 5px solid #ec407a;
+    }
+
+    .memoria.casal {
+      border-left: 5px solid #3949ab;
+    }
+
+    body.modo-noturno {
+      background-color: #0d1b2a;
+      color: #eee;
+    }
+
+    body.modo-noturno header,
+    body.modo-noturno nav {
+      background-color: #1b263b;
+    }
+
+    body.modo-noturno .memoria {
+      background-color: #1b263b;
+      box-shadow: 0 0 12px rgba(100, 181, 246, 0.2);
+    }
+
+    body.modo-noturno .memoria.kurosaki {
+      border-left-color: #ff8a80;
+    }
+
+    body.modo-noturno .memoria.hinara {
+      border-left-color: #f48fb1;
+    }
+
+    body.modo-noturno .memoria.casal {
+      border-left-color: #82b1ff;
+    }
+
+    body.modo-noturno .legenda-sobreposta {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    }
+
+    body.modo-noturno .selo-jutsu {
+      opacity: 0.6;
+      color: #64b5f6;
+    }
+
+    body.modo-noturno .voltar a {
+      background-color: #64b5f6;
+      color: #0d1b2a;
+    }
+
+    body.modo-noturno {
+      background-image: none;
+      background-color: #0d1b2a;
+      /* fundo escuro substituto */
+    }
+
+    @media screen and (min-width: 1000px) {
+      .memoria {
+        width: 320px;
+      }
+    }
+
+    #chakraCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .aura-galeria {
+      animation: chakra-pulso 2.5s infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes chakra-pulso {
+
+      0%,
+      100% {
+        box-shadow: 0 0 4px rgba(255, 64, 129, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 14px rgba(255, 64, 129, 0.9);
+      }
+    }
+
+
+.imagem-legenda img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  backface-visibility: hidden;
+}
+
+  </style>
+  <section class="filtros">
+    <button data-filtro="todos" class="ativo">✨ Todos</button>
+    <button data-filtro="kurosaki">🔥 Kurosaki</button>
+    <button data-filtro="hinara">🌸 Hinara</button>
+    <button data-filtro="casal">💫 Casal</button>
+  </section>
+
+  <section class="galeria" id="galeriaMemorias">
+
+    <div class="memoria kurosaki" data-grupo="kurosaki">
+      <div class="imagem-legenda">
+        <img id="kurosakiMemoria" src="imagens/kurosaki.png"  alt="Kurosaki observando" data-ampliar />
+        <div class="legenda-sobreposta">Silêncio entre as sombras da missão.</div>
+      </div>
+      <span class="selo-jutsu">🩸</span>
+    </div>
+
+    <div class="memoria hinara" data-grupo="hinara">
+      <div class="imagem-legenda">
+        <img id="hinaraMemoria" src="imagens/deusa-dragao.png" alt="Hinara com luz ancestral" data-ampliar />
+        <div class="legenda-sobreposta">A sabedoria que os dragões respeitam.</div>
+      </div>
+      <span class="selo-jutsu">🌙</span>
+    </div>
+
+    <div class="memoria casal" data-grupo="casal">
+      <div class="imagem-legenda">
+        <img id="casalMemoria"  src="imagens/blusa rosa.png" alt="Hinara e Kurosaki em harmonia" data-ampliar />
+        <div class="legenda-sobreposta">Dois corações se cruzam no fim do dia.</div>
+      </div>
+      <span class="selo-jutsu">⛩️</span>
+    </div>
+
+  </section>
+
+  <div class="voltar">
+    <a href="index.html">← Voltar ao Início</a>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <span class="fechar">&times;</span>
+    <img id="lightboxImg" src="" alt="Imagem ampliada" />
+    <p id="legendaLightbox"></p>
+  </div>
+
+  <button class="botao-voltar" id="ativarNoturno" title="Modo Noturno">🌙</button>
+
+  <footer>
+    &copy; 2025 Portal Shinobi. Criado com chakra, HTML e afeição ninja.
+  </footer>
+
+ <script src="galeria.js" defer></script>
+<script>
+  const kurosakiFotos = [
+    "imagens/kurosaki.png",
+    "imagens/uni-2.png",
+    "imagens/uni-3.png",
+    "imagens/uni-4.png",
+    "imagens/rasengan-elemental.png" ,
+    "imagens/tunica-roxa.png" 
+  ];
+
+  const hinaraFotos = [
+    "imagens/vestido.png",
+    "imagens/deusa-dragao.png",
+    "imagens/guardia.png",
+    "imagens/uni-2-hinara.png" ,
+    "imagens/amazing-hinara.png",
+    "imagens/roupa-gala-1.png" ,
+    "imagens/praia-2.png",
+    "imagens/praia-3.png" ,
+    "imagens/musa-2.png" ,
+    "imagens/musa.png" ,
+    "imagens/musa-3.png" ,
+   
+  ];
+
+  const casalFotos = [
+   
+    "imagens/blusa rosa.png",
+    "imagens/na-casa.png" ,
+    "imagens/realista.png",
+    "imagens/realista-2.png",
+    "imagens/realista-3.png",
+    "imagens/realista-4.png",
+    "imagens/realist-5.png",
+    "imagens/florida.png",
+    "imagens/florido-2.png" ,
+    "imagens/florido-3.png" ,
+    "imagens/praia-1.png" ,
+    "imagens/loira.png" ,
+    "imagens/frio.png" ,
+    "imagens/frio-2.png" ,
+    "imagens/frio-3.png" ,
+    "imagens/jantar.png" ,
+   
+  
+  ];
+
+  const kurosakiEl = document.getElementById("kurosakiMemoria");
+  const hinaraEl = document.getElementById("hinaraMemoria");
+  const casalEl = document.getElementById("casalMemoria");
+
+  let indexK = 0, indexH = 0, indexC = 0;
+function trocarSuave(fotos, el, indexRef) {
+  const novaImg = new Image();
+  const proximoIndex = (indexRef + 1) % fotos.length;
+  novaImg.src = fotos[proximoIndex];
+
+  novaImg.onload = () => {
+    // Mantém imagem atual visível até a nova estar pronta
+    setTimeout(() => {
+      el.src = novaImg.src;
+      el.style.opacity = 1; // Reaparece imediatamente após troca
+    }, 10);
+    
+    el.style.opacity = 0; // Inicia fade somente após preload completo
+  };
+
+  return proximoIndex;
+}
+
+  setInterval(() => { indexK = trocarSuave(kurosakiFotos, kurosakiEl, indexK); }, 4200);
+  setInterval(() => { indexH = trocarSuave(hinaraFotos, hinaraEl, indexH); }, 4200);
+  setInterval(() => { indexC = trocarSuave(casalFotos, casalEl, indexC); }, 4200);
+</script>
+
+
+
+</body>
+</html>

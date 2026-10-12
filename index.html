@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal SHINOBI - Página Inicial</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #1a1a1a, #111);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    nav {
+      background-color: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      padding: 1rem 2rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff4d4d;
+    }
+
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 2rem 1rem;
+      border-radius: 6px;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      color: #ff8a80;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid #e53935;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+     
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.06);
+    }
+
+    .card-content {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.025);
+      flex-grow: 1;
+    }
+
+    .missao-dia {
+      background: radial-gradient(circle at top, #2b0d0d, #111);
+      border-left: 4px solid #e53935;
+      box-shadow: 0 0 10px rgba(229, 57, 53, 0.3);
+      padding: 2rem;
+      border-radius: 6px;
+      position: relative;
+      margin-top: 3rem;
+    }
+
+    .missao-dia::before {
+      content: "⚔️";
+      font-size: 2rem;
+      position: absolute;
+      top: -14px;
+      left: -10px;
+    }
+
+    .missao-dia h2 {
+      color: #ff4d4d;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-link {
+      display: block;
+      margin: 3rem auto;
+      text-align: center;
+    }
+
+    .timeline-link a {
+      background-color: #1a237e;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #1a237e5a;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-link a:hover {
+      background-color: #3949ab;
+      transform: scale(1.05);
+    }
+
+    .galeria-preview {
+      margin-top: 4rem;
+    }
+
+    .galeria-preview h3 {
+      color: #ff8a80;
+      margin-bottom: 1rem;
+    }
+
+    .galeria-miniaturas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .galeria-miniaturas img {
+      width: 20%;
+      height: 20%;
+      object-fit: cover;
+      border-radius: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .galeria-miniaturas img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 4rem;
+      background: #0d0d0d;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* ⚡ Scroll Reveal */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    [data-reveal].active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body {
+      background-image: url(imagens/casa.png);
+      background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .botao {
+      display: inline-block;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+      background-color: #1a237e;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .botao:hover {
+      background-color: #3949ab;
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    .botao {
+      align-self: flex-end;
+    }
+
+    .galeria {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .galeria img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .galeria img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(255, 64, 129, 0.6);
+    }
+
+    .galeria {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .galeria img {
+      width: 200px;
+      height: 60%;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .galeria img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(255, 64, 129, 0.6);
+    }
+
+    .aura {
+      box-shadow: 0 0 18px rgba(255, 64, 129, 0.6);
+      transition: box-shadow 0.4s ease;
+    }
+
+    @keyframes chakra-pulso {
+      0% {
+        box-shadow: 0 0 4px rgba(255, 64, 129, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 14px rgba(255, 64, 129, 0.9);
+      }
+
+      100% {
+        box-shadow: 0 0 4px rgba(255, 64, 129, 0.3);
+      }
+    }
+
+    .aura-pulsante {
+      animation: chakra-pulso 2.5s infinite;
+      border-radius: 8px;
+    }
+
+    body {
+      opacity: 0;
+      transition: opacity 1.4s ease-in;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    .missao-dia {
+      animation: pulsar-chakra 3s infinite;
+    }
+
+    @keyframes pulsar-chakra {
+
+      0%,
+      100% {
+        box-shadow: 0 0 6px rgba(236, 64, 122, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 18px rgba(236, 64, 122, 0.7);
+      }
+    }
+
+    .icone-anbu {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      font-size: 32px;
+      background-color: #212121;
+      color: #f48fb1;
+      padding: 12px;
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(236, 64, 122, 0.5);
+      z-index: 1000;
+      cursor: pointer;
+      animation: girar-chakra 6s linear infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .icone-anbu:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 18px rgba(236, 64, 122, 0.8);
+    }
+
+    @keyframes girar-chakra {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .painel-anbu {
+  position: fixed;
+  bottom: 100px;
+  right: 40px;
+  width: 240px;
+  padding: 1rem;
+  background-color: #212121;
+  color: #fce4ec;
+  border-radius: 12px;
+  box-shadow: 0 0 14px rgba(236,64,122,0.6);
+  z-index: 9999;
+  display: none;
+  animation: aparecerPainel 0.6s ease forwards;
+}
+
+.painel-anbu h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #f48fb1;
+}
+
+.painel-anbu button {
+  background-color: #ec407a;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+@keyframes aparecerPainel {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.missao-interativa {
+  background: linear-gradient(to right, #4a148c, #6a1b9a);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(106, 27, 154, 0.5);
+}
+
+.pergaminhos-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.pergaminho {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #f4e0aa, #c9a76b);
+  border: 2px solid #ec407a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.pergaminho:hover {
+  transform: scale(1.1);
+}
+.missao-interativa {
+  background: linear-gradient(to right, #4a148c, #6a1b9a);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(106, 27, 154, 0.5);
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.pergaminhos-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.pergaminho {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #f4e0aa, #c9a76b);
+  border: 2px solid #ec407a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.pergaminho:hover {
+  transform: scale(1.1);
+}
+.selo-secreto {
+  position: fixed;
+  top: 20px;       /* distância do topo */
+  right: 20px;     /* distância da direita */
+}
+
+.selo-secreto button {
+  background-color: #b22222; /* vermelho ninja */
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.selo-secreto button:hover {
+  background-color: #ff4500; /* efeito hover */
+}
+</style>
+</head>
+
+<body>
+<audio autoplay loop hidden>
+  <source src="audio/abertura.mp3" type="audio/mpeg" />
+</audio>
+
+  <div class="selo-secreto">
+  <button onclick="acessarJutsuSecreto()">Jutsu Secreto</button>
+</div>
+  <a href="anbu-secreto.html" class="icone-anbu">🌀</a>
+<div class="card">
+  
+  <div class="card-content">
+    <h3>Jutsu do Dia: Kai</h3>
+    <p>Usado para dissipar ilusões. Domine este selo e liberte a mente.</p>
+    
+  </div>
+</div>
+
+</div>
+
+<div id="painel-anbu" class="painel-anbu">
+  <h3>⚠️ Acesso Restrito ANBU</h3>
+  <p>Só jonins com selo secreto podem acessar a câmara subterrânea.</p>
+  <button onclick="fecharPainelAnbu()">Fechar</button>
+</div>
+
+
+  <!-- ⛩️ Menu -->
+  <nav>
+    <a href="intro.html">Abertura</a>
+    <a href="index.html">Início</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="kurosaki.html">Kurosaki</a>
+    <a href="hinara.html">Hinara</a>
+    <a href="linha-do-tempo-kurosaki.html">Tempo Kurosaki</a>
+    <a href="linha-do-tempo-hinara.html">Tempo Hinara</a>
+  </nav>
+
+  <main>
+    <!-- 🌌 Hero -->
+    <section class="hero" data-reveal>
+      <h1>🌌 Bem-vindo ao Portal Shinobi</h1>
+      <p>As últimas atualizações do mundo ninja direto da Vila da Folha.</p>
+    </section>
+   
+    <!-- 📰 Destaques -->
+    <section class="card-grid" data-reveal>
+      <div class="card">
+        <img src="imagens/guardioes.png" alt="Notícia 1">
+        <a href="noticia1.html" class="botao">Leia mais</a>
+        <div class="card-content">
+          <h3>Hinara e Kurosaki enfrentam nova ameaça</h3>
+          <p>Uma sombra antiga ressurge no leste do País do Trovão...</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="imagens/branco e preto.png" class="aura" alt="Notícia 2">
+        <a href="noticia2.html" class="botao">Leia mais</a>
+        <div class="card-content">
+          <h3>Relíquia ancestral descoberta</h3>
+          <p>Arqueólogos da Folha desenterram artefato lendário de chakra...</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="imagens/super-maravilha.png" class="aura-pulsante" alt="Notícia 3">
+        <a href="noticia3.html" class="botao">Leia mais</a>
+        <div class="card-content">
+          <h3>Festival Secreto da Vila</h3>
+          <p>Mascarados e jutsus raros marcam o evento mais místico do ano.</p>
+        </div>
+      </div>
+    </section>
+
+ 
+
+
+    <!-- 📅 Linha do Tempo -->
+
+    <!--  Galeria -->
+    <section class="galeria-preview" data-reveal>
+      <h2>🎴Vislumbres da Galeria Shinobi🎴</h2>
+      <div class="galeria">
+        <img id="imgHinara" src="imagens/missão secreta.png" alt="imagens/hinaku.png" />
+        <img id="imgKurosaki" src="imagens/guardia.png" alt="festival.png" />
+        <img id="imgEmblema" src="imagens/kurosaki.png" alt="kurohina.png" />
+      </div>
+
+      <div class="timeline-link" data-reveal>
+        <a href="galeria.html">📅 Ver A Galeria Ninja</a>
+      </div>
+      <div class="card-ninja" onclick="revelarCarta('chakra')">🕯️ Carta Oculta
+      
+      </div>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Portal SHINOBI — Hinara • Kurosaki • ANBU • Vila da Folha
+  </footer>
+
+  <!-- ⚡ JavaScript Scroll Reveal -->
+  <script>
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("active");
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-reveal]").forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      // Hinara
+      const hinaraImg = document.getElementById("imgHinara");
+      const hinaraImgs = ["imagens/missão secreta.png", "imagens/miss sec.png"];
+      let hinaraIndex = 0;
+
+      setInterval(() => {
+        hinaraIndex = (hinaraIndex + 1) % hinaraImgs.length;
+        hinaraImg.src = hinaraImgs[hinaraIndex];
+      }, 4000);
+
+      // Kurosaki
+      const kurosakiImg = document.getElementById("imgKurosaki");
+      const kurosakiImgs = ["imagens/guardia.png", "imagens/deusa-dragao.png"];
+      let kurosakiIndex = 0;
+
+      setInterval(() => {
+        kurosakiIndex = (kurosakiIndex + 1) % kurosakiImgs.length;
+        kurosakiImg.src = kurosakiImgs[kurosakiIndex];
+      }, 4200);
+
+      // Emblema
+      const emblemaImg = document.getElementById("imgEmblema");
+      const emblemaImgs = ["imagens/kurosaki.png", "imagens/uni-2.png"];
+      let emblemaIndex = 0;
+
+      setInterval(() => {
+        emblemaIndex = (emblemaIndex + 1) % emblemaImgs.length;
+        emblemaImg.src = emblemaImgs[emblemaIndex];
+      }, 4500);
+    });
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("loaded");
+    });
+  </script>
+<script>
+  function abrirPainelAnbu() {
+    document.getElementById("painel-anbu").style.display = "block";
+  }
+
+  function fecharPainelAnbu() {
+    document.getElementById("painel-anbu").style.display = "none";
+  }
+</script>
+<script>
+  function revelarMissao() {
+  const detalhes = document.getElementById("detalhesMissao");
+  detalhes.classList.toggle("oculto");
+}
+
+</script>
+<script>
+let tempoRestante = 30; // segundos
+let verdadeiro = 0;
+
+function iniciarMissaoDia() {
+  const container = document.getElementById("pergaminhos");
+  container.innerHTML = "";
+
+  verdadeiro = Math.floor(Math.random() * 6); // Escolhe o índice verdadeiro
+
+  for (let i = 0; i < 6; i++) {
+    const pergaminho = document.createElement("div");
+    pergaminho.classList.add("pergaminho");
+    pergaminho.onclick = () => verificarPergaminho(i);
+    container.appendChild(pergaminho);
+  }
+
+  atualizarContador();
+}
+
+function verificarPergaminho(i) {
+  if (i === verdadeiro) {
+    document.getElementById("missao-status").textContent = "✅ Você encontrou o pergaminho verdadeiro!";
+  } else {
+    document.getElementById("missao-status").textContent = "❌ Esse é um selo falso!";
+  }
+}
+
+function atualizarContador() {
+  const intervalo = setInterval(() => {
+    tempoRestante--;
+    document.getElementById("tempo").textContent = `00:${tempoRestante.toString().padStart(2, '0')}`;
+
+    if (tempoRestante <= 0) {
+      clearInterval(intervalo);
+      document.getElementById("missao-status").textContent = "🕯️ Missão falhou... O pergaminho foi selado.";
+    }
+  }, 1000);
+}
+
+</script>
+<script>
+  function revelarCarta(tipo) {
+  alert("Relíquia Secreta: Chakra do Olho da Lua — usado uma única vez por Madara em combate final!");
+}
+
+</script>
+
+<script>
+function acessarJutsuSecreto() {
+  // Redireciona para a página protegida por senha
+  window.location.href = "jutsu-secreto.html";
+}
+</script>
+</body>
+</html>

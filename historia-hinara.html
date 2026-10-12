@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>História de Hyuuga Hinara — Portal Shinobi</title>
+  <style>
+    body {
+      background-image: url("imagens/social.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      /* cobre toda a tela */
+      background-position: center top;
+      /* foca no topo */
+      background-attachment: scroll;
+      /* rola junto com o conteúdo */
+      background-color: #fff7f9;
+      /* cor base suave */
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: #2c2c2c;
+      min-height: 100vh;
+    }
+
+
+    body {
+      background-color: #fff7f9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #2c2c2c;
+    }
+
+    header {
+      background: linear-gradient(to right, #f8bbd0, #f48fb1);
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .historia-momento {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background: white;
+      margin: 2rem auto;
+      max-width: 900px;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .historia-momento img {
+      width: 100%;
+      max-width: 380px;
+      flex: 1;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .descricao {
+      flex: 2;
+      padding: 1rem 2rem;
+    }
+
+    h2 {
+      color: #ec407a;
+      margin-top: 0;
+    }
+
+    .detalhe-traje {
+      font-style: italic;
+      color: #555;
+    }
+
+    .voltar {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .voltar a {
+      background-color: #ec407a;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    .voltar a:hover {
+      transform: scale(1.05);
+      background-color: #f48fb1;
+    }
+
+    .hinara-floral {
+      background: radial-gradient(circle at top left, #ffe4ec 20%, #fff7f9 80%);
+      box-shadow: 0 0 16px rgba(236, 64, 122, 0.3);
+      border-left: 5px solid #f48fb1;
+      animation: auraPetalas 3s ease-in-out infinite;
+    }
+
+    @keyframes auraPetalas {
+
+      0%,
+      100% {
+        box-shadow: 0 0 14px rgba(255, 102, 153, 0.2);
+      }
+
+      50% {
+        box-shadow: 0 0 22px rgba(255, 102, 153, 0.5);
+      }
+    }
+
+    .historia-momento {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: rgba(255, 255, 255, 0.92);
+      /* fundo branco semi-transparente */
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.15);
+      max-width: 900px;
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+    }
+
+    .descricao h2 {
+      color: #ec407a;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .descricao p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .historia-momento {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.92);
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 0 16px rgba(236, 64, 122, 0.25);
+      max-width: 960px;
+      backdrop-filter: blur(3px);
+      transition: transform 0.3s ease;
+    }
+
+    .historia-momento:hover {
+      transform: scale(1.02);
+    }
+
+    .selo-secreto {
+      text-align: center;
+      margin: 4rem 0;
+    }
+
+    .selo-secreto img {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .selo-secreto img:hover {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .legenda-selo {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="selo-hinara.html" class="icone-anbu">🌀</a>
+
+  <header>
+    <h1>🌸 História de Hyuuga Hinara</h1>
+    <p>Memórias, vestes e jornadas de uma jounin médica lendária</p>
+  </header>
+
+  <main>
+    <!-- Exemplo de entrada visual narrativa -->
+    <section class="historia-momento hinara-floral ">
+      <img src="imagens/hinara-mai-6.png" alt="Hinara em traje cerimonial da paz" />
+      <div class="descricao">
+        <h2>🧘 Cerimônia de Paz após a Quarta Grande Guerra</h2>
+        <p>Hinara vestia o kimono floral da liderança médica, criado com tecidos de Taki e selado com chakra de cura
+          ancestral. Durante a cerimônia, ela foi escolhida como conselheira do hospital central de Konoha.</p>
+        <p class="detalhe-traje">👘 Traje: Kimono floral da paz · selo nebuloso na manga</p>
+      </div>
+    </section>
+
+    <section class="historia-momento hinara-floral">
+      <img src="imagens/guardia.png" alt="Hinara em armadura de combate médico" />
+      <div class="descricao">
+        <h2>🌫️ Missão de resgate no País da Névoa</h2>
+        <p>Usando sua armadura de canalização de umidade, Hinara realizou 17 resgates em cavernas marítimas durante uma
+          batalha entre clãs. O traje amplificava seu Jutsu de Cura Nebulosa.</p>
+        <p class="detalhe-traje">🩺 Traje: Armadura médica de condutividade · selo de umidade nos ombros</p>
+      </div>
+    </section>
+
+    <!-- Continue adicionando quantos blocos desejar -->
+    <section class="historia-momento hinara-floral">
+      <img src="imagens/vestido.png" alt="Hinara no Festival da Lua" />
+      <div class="descricao">
+        <h2>🌙 Festival da Lua em Konoha</h2>
+        <p>Durante o festival que une os cinco clãs da Luz, Hinara usou um traje cerimonial com pétalas bordadas e
+          chakra canalizado para danças curativas. Foi sua primeira aparição pública após a missão em Suna.</p>
+        <p class="detalhe-traje">👘 Traje: Vestido cerimonial com emblema do clã Hyuuga nas costas · pulseiras de
+          estabilização de chakra</p>
+      </div>
+    </section>
+    <section class="historia-momento hinara-floral ">
+      <img src="imagens/hinara-roupa-dragao.png" alt="Hinara em roupa casual com renda" />
+      <div class="descricao">
+        <h2>💮 Momento de descanso no Jardim Secreto</h2>
+        <p>Em tarde de verão entre missões, Hinara usava um traje leve canalizado com chakra calmante. A renda branca
+          possuía marcações sensoriais que reagiam ao fluxo de energia dos arredores.</p>
+        <p class="detalhe-traje">👘 Traje: Vestido de linho com sensores florais · sandálias seladas</p>
+      </div>
+    </section>
+
+    <div class="voltar">
+      <a href="index.html">← Voltar ao Início</a>
+    </div>
+  </main>
+  <div class="selo-secreto">
+    <a href="selo-hinara.html" title="Selo Secreto da Memória">
+      <img src="imagens/musa.png" alt="Selo Secreto da Hinara" />
+    </a>
+    <p class="legenda-selo">Clique no selo para acessar o pergaminho oculto</p>
+  </div>
+  <footer>
+    &copy; 2025 Portal Shinobi — Hinara Hyuuga. Chakra, história e luz.
+  </footer>
+</body>
+
+</html>

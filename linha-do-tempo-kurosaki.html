@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Linha do Tempo - Kurosaki Uchiha</title>
+  <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #121212;
+        color: #eee;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #1a1a1a;
+        text-align: center;
+        padding: 2rem 1rem;
+        color: #e53935;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 0.4rem;
+      }
+
+      main {
+        max-width: 900px;
+        margin: auto;
+        padding: 2rem;
+      }
+
+  .linha-do-tempo {
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 800px;
+    padding-left: 3rem;
+    border-left: 3px solid #ce93d8;
+  }
+
+
+    .evento {
+        background-color: #1f1f1f;
+        border-left: 5px solid #e53935;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 10px rgba(229, 57, 53, 0.1);
+        position: relative;
+      }
+
+      .evento::before {
+        content: "🩸";
+        position: absolute;
+        top: 1rem;
+        left: -2rem;
+        font-size: 1.5rem;
+      }
+
+      .evento h3 {
+        color: #e53935;
+        margin-bottom: 0.5rem;
+      }
+
+      .links-voltar {
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .links-voltar a {
+        display: inline-block;
+        margin: 0.5rem;
+        background-color: #e53935;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+      }
+
+      .links-voltar a:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 10px rgba(229, 57, 53, 0.3);
+      }
+
+      footer {
+        margin-top: 3rem;
+        background-color: #1a1a1a;
+        color: #888;
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.8rem;
+      }
+
+      #chakraCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      body {
+        background-image: url(imagens/guerreiro.png);
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+    </style>
+
+</head><style>
+  body {  body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #121212;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+    background-image: url(imagens/guerreiro.png);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+    font-family: "Segoe UI", sans-serif;
+    background-color: #121212;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+    background-image: url(imagens/guerreiro.png);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  header {
+    background-color: #1a1a1a;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #e53935;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  main {
+  max-width: 900px;
+  margin-left: 2rem;
+  margin-right: auto;
+  padding: 2rem;
+}
+
+  .linha-do-tempo {
+    position: relative;
+    max-width: 700px;        /* reduzido p/ liberar espaço ao fundo */
+    margin-left: 2rem;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    border-left: 3px solid #ce93d8;
+  }
+
+  .evento {
+    background-color: #1f1f1f;
+    border-left: 5px solid #e53935;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 1.5rem 1rem;       /* recuo adicional p/ afastar do canto direito */
+    box-shadow: 0 0 10px rgba(229, 57, 53, 0.1);
+    position: relative;
+  }
+
+  .evento::before {
+    content: "🩸";
+    position: absolute;
+    top: 1rem;
+    left: -2rem;
+    font-size: 1.5rem;
+  }
+
+  .evento h3 {
+    color: #e53935;
+    margin-bottom: 0.5rem;
+  }
+
+  .links-voltar {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .links-voltar a {
+    display: inline-block;
+    margin: 0.5rem;
+    background-color: #e53935;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+
+  .links-voltar a:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 10px rgba(229, 57, 53, 0.3);
+  }
+
+  footer {
+    margin-top: 3rem;
+    background-color: #1a1a1a;
+    color: #888;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  #chakraCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .aparecer {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.aparecer.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+
+
+<body>
+  <div class="fundo-ninja"></div>
+<canvas id="chakraCanvas"></canvas>
+
+  <header>
+    <h1>Linha do Tempo de Kurosaki Uchiha</h1>
+    <p class="aparecer">Momentos que forjaram o Protetor dos inocentes</p>
+  </header>
+
+  <main>
+    <div class="evento">
+      <h3 class="aparecer">📚 Início da Jornada Shinobi</h3>
+      <p class="aparecer">Aos 8 anos, Kurosaki ingressa na Academia Ninja e já demonstra domínio incomum sobre genjutsu — um prodígio
+        silencioso observado de perto pelo clã Uchiha.</p>
+    </div>
+
+    <div class="evento">
+      <h3 class="aparecer">🌫️ Missão no Templo do Dragão Branco</h3>
+      <p class="aparecer">Durante missão solitária nos Montes Nebulosos, Kurosaki desperta sua afinidade com fogo denso e chakra
+        dragônico.</p>
+    </div>
+
+    <div class="evento">
+      <h3 class="aparecer">🌙 Encontro com Hinara</h3>
+      <p class="aparecer">Um duelo virou aliança: Kurosaki e Hinara tornaram-se parceiros de alma e missão.</p>
+    </div>
+
+    <div class="evento">
+      <h3 class="aparecer">🦊 Entrada na ANBU</h3>
+      <p class="aparecer">Silencioso e preciso, passou a patrulhar as sombras da fronteira — e a controlar o medo.</p>
+    </div>
+
+    <div class="evento">
+      <h3 class="aparecer">🎆 Festival da Lua</h3>
+      <p class="aparecer">Vestido com trajes cerimoniais, participou com Hinara de uma noite de paz rara entre guerras.</p>
+    </div>
+
+    <div class="evento">
+      <h3 class="aparecer">🔥 Jutsu Supremo: Dragão de Fumaça Escarlate</h3>
+      <p class="aparecer">Chakra elemental e sentimento se fundiram em uma técnica capaz de cobrir vilas inteiras com névoa flamejante
+        controlada.</p>
+    </div>
+
+    <div class="links-voltar">
+      <a href="index.html">← Voltar ao Início</a>
+    </div>
+    <div class="links-voltar">
+      <a href="kurosaki.html">← Voltar para o Perfil do Kurosaki</a>
+       </div>
+    
+  </main>
+  </div>
+  <footer>
+    &copy; 2025 Portal Shinobi — Linha do Tempo: Kurosaki Uchiha
+  </footer>
+  <script>
+    window.addEventListener("load", () => {
+      const canvas = document.getElementById("chakraCanvas");
+      const ctx = canvas.getContext("2d");
+
+      let width, height;
+      function ajustarCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      ajustarCanvas();
+      window.addEventListener("resize", ajustarCanvas);
+
+      const particulas = Array.from({ length: 500 }, () => ({
+        x: Math.random() * width,
+        y: height + Math.random() * 200,
+        r: Math.random() * 3 + 1,
+        speed: Math.random() * 1.5 + 1,
+        opacity: Math.random() * 0.4 + 0.1
+      }));
+
+      function animarChakra() {
+        ctx.clearRect(0, 0, width, height);
+        particulas.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(244, 67, 54, ${p.opacity})`; // cor roxa suave
+          ctx.fill();
+          p.y -= p.speed;
+          if (p.y < -10) {
+            p.y = height + Math.random() * 100;
+            p.x = Math.random() * width;
+          }
+        });
+        requestAnimationFrame(animarChakra);
+      }
+
+      animarChakra();
+    });
+  </script>
+<script>
+  window.addEventListener("scroll", () => {
+    document.querySelectorAll('.aparecer').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight - 50;
+
+      if (isVisible) {
+        el.classList.add('visivel');
+      }
+    });
+  });
+
+  // Ativar itens que já estão visíveis no início
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.aparecer').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight - 50;
+
+      if (isVisible) {
+        el.classList.add('visivel');
+      }
+    });
+  });
+</script>
+
+</body>
+
+</html>

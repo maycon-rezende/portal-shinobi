@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hinara e Kurosaki enfrentam nova ameaça</title>
+
+  <style>
+    body.noticia-hinara {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at center, #1c0e13, #0a0103);
+      background-attachment: fixed;
+      color: #fff;
+      line-height: 1.7;
+    }
+
+    body.noticia-hinara::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(rgba(255,0,0,0.05), transparent 60%);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .imagem-topo {
+ display: block;
+    max-width: 320px;
+    margin: 1.5rem auto;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgb(177, 1, 1);
+
+    }
+
+    
+   
+  
+    .imagem-topo.hinara {
+      border: 3px solid #e53935;
+      filter: contrast(1.1) brightness(1.05);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ff4d4d;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 6px rgba(229, 57, 53, 0.5);
+    }
+
+    .pulsar {
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.95);
+      transform: scale(1.05);
+      transition: all 0.5s ease;
+    }
+
+    .data {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    main p {
+      margin-bottom: 1.4rem;
+      opacity: 0;
+    }
+
+    .voltar {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #1a237e;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .voltar:hover {
+      background-color: #3949ab;
+      transform: rotate(-3deg) scale(1.05);
+    }
+  </style>
+</head>
+<body class="noticia-hinara">
+  <div class="container">
+    <header>
+      <img src="imagens/guardioes3.png" class="imagem-topo hinara" alt="Hinara e Kurosaki enfrentam nova ameaça" />
+      <h1>Hinara e Kurosaki enfrentam nova ameaça</h1>
+      <div class="data">Publicado em 29 de Julho de 2025</div>
+    </header>
+
+    <main>
+      <p>Após uma série de distúrbios espirituais nos arredores do País do Trovão, Hinara e Kurosaki foram convocados pela Vila da Folha para investigar o ressurgimento de uma entidade ancestral selada há mais de 200 anos.</p>
+      <p>Utilizando seus doujutsus em sincronia, o casal percebeu que o selo original estava enfraquecido pela interferência de um artefato oculto. Segundo registros perdidos, trata-se dos <strong>Olhos das Estações</strong>, capaz de manipular o fluxo do tempo chakra em todo o continente.</p>
+      <p>A missão foi concluída com sucesso, o nível de ameaça foi classificado como <strong>Classe-S Proibida</strong>, e que apenas ninjas de elite e com autorização do Hokage poderiam se aproximar do local.</p>
+      <a href="index.html" class="voltar">← Voltar para o portal</a>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      // Jutsu 1: Pulsar no título
+      const titulo = document.querySelector("h1");
+      if (titulo) {
+        setInterval(() => {
+          titulo.classList.toggle("pulsar");
+        }, 2000);
+      }
+
+      // Jutsu 2: Revelação dos parágrafos
+      const paragrafos = document.querySelectorAll("main p");
+      paragrafos.forEach((p, i) => {
+        setTimeout(() => {
+          p.style.transition = "opacity 0.8s ease";
+          p.style.opacity = 1;
+        }, 600 * i);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aventuras Secretas — ANBU</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f8bbd0;
+      font-family: "Segoe UI", sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #f48fb1;
+      margin-bottom: 2rem;
+    }
+
+    .aventura {
+      margin-bottom: 2.5rem;
+      background-color: #1f1f1f;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.3);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+
+    .aventura.visivel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      color: #ec407a;
+      margin-bottom: 0.8rem;
+    }
+
+    .botao-voltar {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.4rem;
+      background-color: #ec407a;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 40px;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .botao-voltar:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 18px rgba(236, 64, 122, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <h1>🗝️ Câmara de Aventuras Ocultas</h1>
+  <div class="aventura aparecer">
+    <h2>🌪️ Missão no Desfiladeiro Nebuloso</h2>
+    <p>
+      Kurosaki e Hinara foram enviados ao Desfiladeiro Nebuloso para interceptar uma ameaça de ninjas mercenários.  
+      A combinação do Byakugan com a escuridão da névoa tornou a missão crítica — Hinara aplicou seu Jutsu de Cura Nebulosa para salvar Kurosaki após ele bloquear um ataque de veneno chakra...
+    </p>
+  </div>
+
+  <div class="aventura aparecer">
+    <h2>💮 A Aliança do Espelho Lunar</h2>
+    <p>
+      Em uma cerimônia secreta entre clãs, Kurosaki e Hinara enfrentaram um genjutsu que manipulava memórias — apenas ao reconectar suas histórias foi possível romper o selo mental do Espelho Lunar.
+      Esta missão fortaleceu a conexão espiritual entre os dois.
+    </p>
+  </div>
+
+  <a href="index.html" class="botao-voltar">← Voltar ao Portal Shinobi</a>
+<script>
+  window.addEventListener("scroll", () => {
+    document.querySelectorAll('.aparecer').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 50) {
+        el.classList.add('visivel');
+      }
+    });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.aparecer').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 50) {
+        el.classList.add('visivel');
+      }
+    });
+  });
+</script>
+</body>
+</html>

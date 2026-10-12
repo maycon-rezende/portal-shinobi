@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hinara Hyuuga - Portal Shinobi</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #fce4ec;
+      color: #4a0033;
+      margin: 0;
+      padding: 0;
+    }
+
+    header,
+    nav {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #ec407a;
+      color: white;
+    }
+
+    nav a {
+      margin: 0 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: rgb(255, 0, 0);
+      color: white;
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-left: 5px solid #ec407a;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(236, 64, 122, 0.15);
+    }
+
+    h2 {
+      color: #ec407a;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .imagem-hinara {
+      display: block;
+      max-width: 320px;
+      margin: 1.5rem auto;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(236, 64, 122, 0.4);
+      border: 4px solid #ec407a;
+
+    }
+
+    .botao-linha-tempo {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background-color: #ec407a;
+      color: white;
+      font-weight: bold;
+      border-radius: 40px;
+      text-decoration: none;
+      margin: 2rem auto 0;
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.3);
+    }
+
+    .botao-linha-tempo:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 18px rgba(245, 0, 0, 0.5);
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 1rem;
+      background-color: #f8bbd0;
+      color: #6a1b47;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    nav {
+      background-color: #fa0053be !important;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .botoes-navegacao {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.botao-ninja {
+  background-color: #ec407a;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(236, 64, 122, 0.4);
+  transition: background-color 0.3s ease;
+}
+
+.botao-ninja:hover {
+  background-color: #d81b60;
+}
+
+  </style>
+
+</head>
+
+<body>
+  <header>
+    <h1>Perfil Ninja — Hinara Hyuuga</h1>
+  </header>
+  <nav>
+    <ul style="display: flex; gap: 1rem; justify-content: center; list-style: none; padding: 1rem;">
+      <li><a href="index.html" style="color: #fff; text-decoration: none;">Início</a></li>
+      <li><a href="galeria.html" style="color: #fff; text-decoration: none;">Galeria</a></li>
+      <li><a href="kurosaki.html" style="color: #fff; text-decoration: none;">Kurosaki</a></li>
+      <li><a href="hinara.html" style="color: #fff; text-decoration: none;">Hinara</a></li>
+      <li><a href="linha-do-tempo-kurosaki.html" style="color: #fff; text-decoration: none;">Tempo Kurosaki</a></li>
+      <li><a href="linha-do-tempo-hinara.html" style="color: #fff; text-decoration: none;">Tempo Hinara</a></li>
+      <li><a href="noticia1.html" style="color: #fff; text-decoration: none;">Notícia Principal</a></li>
+    </ul>
+  </nav>
+  <div class="linha-do-tempo">
+    <div class="evento">
+      <span class="icone">🌸</span>
+      <div class="conteudo">
+        <h3>Formação no Clã Hyuuga</h3>
+        <p>Treinada pelas matriarcas do ramo principal, Hinara dominou o Byakugan e o Jūken ainda na adolescência...</p>
+      </div>
+    </div>
+    <!-- repetir para cada evento -->
+  </div>
+
+  <div class="container">
+    <h2>Ficha Ninja</h2>
+    <div class="perfil">
+      <img src="imagens/guardia.png" alt="Hinara Hyuuga" class="imagem-hinara" />
+      <div class="info">
+        <p><strong>Nome:</strong> Hinara Hyuuga</p>
+        <p><strong>Clã:</strong> Hyuuga (ramo principal)</p>
+        <p><strong>Especialidade:</strong> Byakugan, combate suave (Jūken) e selos médicos</p>
+        <p><strong>Status:</strong> Jounin Médica — conselheira do hospital de Konoha e líder de esquadrões de apoio</p>
+        <p><strong>Curiosidade:</strong> Criadora do Jutsu de Cura Nebulosa, que restaura aliados através da umidade do
+          ambiente</p>
+        <p><strong>Companheiro de batalha:</strong> Kurosaki Uchiha</p>
+      </div>
+    </div>
+
+    <h2>Resumo da Jornada</h2>
+    <p>
+      Hinara cresceu sob os rigores do clã Hyuuga, mas sempre seguiu sua intuição além da tradição. Sua força reside não
+      apenas no domínio do Byakugan,
+      mas na capacidade de curar e proteger aqueles que ama — mesmo em meio ao caos da guerra ninja.
+    </p>
+    <p>
+      Ao lado de Kurosaki, Hinara conquistou o respeito dos cinco países. Juntos, eles compartilham uma conexão que
+      transcende batalha, sangue e chakra.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="linha-do-tempo-hinara.html" class="botao-linha-tempo">
+      🗓️ Ver Linha do Tempo de Hinara
+    </a>
+
+
+    </a>
+  </div>
+ 
+<div class="botoes-navegacao">
+  <a href="selo-hinara.html" class="botao-ninja">🌀 Acessar Selo da Hinara</a>
+</div>
+
+
+  <footer>
+    &copy; 2025 Portal Shinobi — Hinara Hyuuga
+  </footer>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const body = document.body;
+      body.style.transition = "background 4s ease";
+
+      setTimeout(() => {
+        body.style.background = "radial-gradient(circle at center, #ffc1e3 20%, #0d0d0d 100%)";
+      }, 2000);
+    });
+  </script>
+
+</body>
+
+</html>

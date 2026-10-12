@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Galeria Oculta — Hinara Hyuuga</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("imagens/fundo-dragao.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      color: #2c2c2c;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    canvas#petalasCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ec407a;
+      font-size: 2.2rem;
+      margin-top: 2rem;
+    }
+
+    .introducao {
+      text-align: center;
+      font-style: italic;
+      color: #ffffff;
+      margin: 1rem auto 3rem;
+      max-width: 600px;
+    }
+
+    .galeria-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bloco-imagem {
+      background-color: rgba(255, 255, 255, 0.85);
+      border: 2px solid #ec407a;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.3);
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .bloco-imagem img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 10px;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .bloco-imagem p {
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .botao-retorno {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      color: #ec407a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .botao-retorno:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .bloco-imagem {
+      background-color: transparent;
+      border: 2px solid #ec407a;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 12px rgba(236, 64, 122, 0.3);
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .voltar a {
+      background-color: #6a1b9a;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .voltar a:hover {
+      background-color: #8e24aa;
+    }
+  </style>
+</head>
+
+<body>
+
+  <audio autoplay loop hidden>
+    <source src="audio/hinara-galeria.mp3" type="audio/mpeg" />
+  </audio>
+
+
+  <canvas id="petalasCanvas"></canvas>
+
+  <h1>🌸 Galeria Oculta — Memórias de Hinara</h1>
+  <p class="introducao">
+    Esta galeria revela os momentos ocultos da kunoichi Hinara Hyuuga — trajes que canalizam chakra, vestes cerimoniais
+    e memórias seladas sob pétalas de cura.
+  </p>
+
+  <div class="galeria-container">
+    <div class="bloco-imagem">
+      <img id="loopHinara" src="imagens/hinara-mai-6.png" />
+      <p id="legendaHinara">“Chakra suave em trajes de descanso.”</p>
+    </div>
+  </div>
+
+
+  <div class="voltar">
+    <a href="hinara.html">🔙 Voltar para o Perfil da Hinara</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Portal Shinobi — Galeria da Hinara.
+    <br />
+    “Somente aqueles que enxergam com o coração podem decifrar o selo oculto.”
+  </footer>
+
+  <script>
+    const imagens = [
+      "imagens/hinara-hyuuga-5.png" ,
+      "imagens/hinara-hyuuga-4.png" ,
+      "imagens/hinara-hyyuga-3.png" ,
+      "imagens/hyuuga-hinara-2.png" ,
+      "imagens/hyuuga-hinara-1.png" ,
+      "imagens/hinara-6.png" ,
+      "imagens/hinara-5.png" ,
+      "imagens/hinara-4.png" ,
+      "imagens/hinara-3.png" ,
+      "imagens/hinara-2.png" ,
+      "imagens/hinara-1.png" ,
+      "imagens/manga-hinara.png" ,
+      "imagens/hinara-lutando.png" ,
+      "imagens/hyuuga-hinara-uchiha.png" ,
+      "imagens/hyuuga-hinara.png" ,
+      "imagens/hinara-passeio.png" ,
+      "imagens/hinara-meditacao.png" ,
+      "imagens/hinara-hyuuga.png" ,
+      "imagens/luta-6.png" ,
+      "imagens/luta-5.png" ,
+      "imagens/luta-4.png" ,
+      "imagens/luta-3.png" ,
+      "imagens/luta-2.png" ,
+      "imagens/luta-1.png" ,
+      "imagens/hinara-curando.png" ,
+      "imagens/deusa-byakugan.png" ,
+      "imagens/hinara-frio.png" ,
+      "imagens/hinara-frio-2.png" ,
+      "imagens/hinara-frio-3.png" ,
+      "imagens/hinara-frio-4.png" ,
+      "imagens/roupa-gala-1.png" ,
+      "imagens/roupa-verde.png" ,
+      "imagens//blusa-frio.png" ,
+      "imagens/espionagem.png" ,
+      "imagens/blusa-frio-2.png" ,
+      "imagens/chapeuzinho.png" ,
+      "imagens/chapeuzinho-2.png" ,
+      "imagens/hinara-treino.png" ,
+      "imagens/armadura.png" ,
+      "imagens/armadura-dragao-2.png" ,
+       "imagens/hinara-hyuuga-8.png" ,
+      "imagens/hinara-hyuuga-6.png" ,
+      "imagens/armadura-dragao.png" ,
+      "imagens/hinara-campo.png" ,
+      "imagens/rainha.png" ,
+      "imagens/hina-blue.png",
+      "imagens/hinara-vila.png" ,
+      "imagens/hinara-mai-6.png",
+      "imagens/hinara-mai-5.png",
+      "imagens/hinara-sherme.png",
+      "imagens/sherme-hinara.png",
+      "imagens/hinara-sherme-2.png",
+      "imagens/hinara-sherme-3.png",
+      "imagens/roupa-sherme-1.png" ,
+      "imagens/hinara-kimono.png" ,
+      "imagens/social.png" ,
+      "imagens/hinara-vila-2.png" ,
+      "imagens/musa.png",
+      "imagens/musa-2.png",
+      "imagens/musa-3.png",
+      "imagens/hinara-8.png" ,
+      "imagens/vestido.png",
+      "imagens/deusa-dragao.png",
+      "imagens/guardia.png",
+      "imagens/uni-2-hinara.png",
+      "imagens/amazing-hinara.png",
+      "imagens/guerreira.png",
+      "imagens/hinara-alternativa.png" ,
+      "imagens/rainha-2.png" ,
+      "imagens/praia-2.png",
+      "imagens/praia-3.png",
+      "imagens/roupa-cinza.png" ,
+      "imagens/roupa-cinza-2.png" ,
+      "imagens/vestido-vermelho.png" ,
+      "imagens/hinara-7.png" ,
+      "imagens/social-2.png" ,
+      "imagens/espionagem.png" ,
+
+
+ 
+
+
+
+
+    ];
+
+    const legendas = [
+      "“Vestido preto cerimonial.”",
+      "“Chakra suave em trajes de descanso.”",
+      "“Vestes canalizadas para cura emergencial.”",
+      "“Rituais florais sob o luar de Konoha.”",
+      "“Traje casual usado após missão em Suna.”",
+      "“Armadura médica ativada no País da Névoa.”",
+      "“Kimono da Paz usado no Festival da Lua.”",
+      "“Traje social da Hinara.”",
+      "“Kimono do dia do Dragão.”",
+      "“Forma divina — Deusa Dragão.”",
+      "“Guardião espiritual ativado.”",
+      "“Traje unificado pós selo.”",
+      "“Hinara em modo celestial.”",
+      "“Traje de batalha ancestral.”",
+      "“Vestes suaves à beira-mar.”",
+      "“Hinara em descanso na areia.”"
+    ];
+
+    let index = 0;
+    const img = document.getElementById("loopHinara");
+    const legenda = document.getElementById("legendaHinara");
+
+    // Inicializa imagem e legenda
+    img.src = imagens[0];
+    legenda.textContent = legendas[0];
+
+    // Loop com transição suave
+    setInterval(() => {
+      img.style.opacity = 0.5;
+      setTimeout(() => {
+        index = (index + 1) % imagens.length;
+        img.src = imagens[index];
+        legenda.textContent = legendas[index];
+        img.style.opacity = 1;
+      }, 300);
+    }, 5000);
+
+    // Script das pétalas flutuantes
+    const canvas = document.getElementById("petalasCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const petalas = [];
+    for (let i = 0; i < 30; i++) {
+      petalas.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 4 + 2,
+        d: Math.random() * 30,
+        color: "rgba(255,182,19)"
+      });
+    }
+
+    function drawPetalas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < petalas.length; i++) {
+        const p = petalas[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.y += Math.cos(p.d) + 1;
+        p.x += Math.sin(p.d) * 0.5;
+
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+    }
+
+    setInterval(drawPetalas, 100);
+  </script>
+</body>
+
+</html>

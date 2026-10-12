@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeria Oculta — Kurosaki</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("imagens/susano.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Segoe UI', sans-serif;
+      color: #ddd;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #90caf9;
+      font-size: 2.4rem;
+      margin-top: 2rem;
+    }
+
+    .introducao {
+      text-align: center;
+      font-style: italic;
+      color: #aaa;
+      margin: 1rem auto 3rem;
+      max-width: 700px;
+    }
+
+    .galeria-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bloco-imagem {
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 2px solid #90caf9;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 14px rgba(144, 202, 249, 0.5);
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .bloco-imagem img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 10px;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .bloco-imagem p {
+      font-style: italic;
+      font-size: 0.95rem;
+      margin-top: 0.7rem;
+      color: #ccc;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .voltar a {
+      background-color: #1a237e;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .voltar a:hover {
+      background-color: #3949ab;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    #chakraCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .botao-modo {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #212121;
+      color: #90caf9;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(144, 202, 249, 0.4);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .botao-modo:hover {
+      transform: scale(1.05);
+    }
+
+    body.modo-susano {
+      background-image: url("imagens/susano.png");
+      background-color: #000;
+      color: #ddd;
+    }
+
+    body.modo-anbu {
+      background-image: url("imagens/MSE.png");
+      background-color: #101b30;
+      color: #e3f2fd;
+    }
+    @keyframes fundoAnime {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  background: linear-gradient(-45deg, #0d1b2a, #1a237e, #263238, #000000);
+  background-size: 400% 400%;
+  animation: fundoAnime 20s ease infinite;
+}
+.mangekyou-sprite {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 200px;
+  height: 200px;
+  background: url("imagens/mangekyou-sprite.png") no-repeat;
+  animation: ativarOlho 2.4s steps(6) infinite;
+  z-index: 10;
+  opacity: 0.08;
+}
+
+@keyframes ativarOlho {
+  from { background-position: 0 0; }
+  to { background-position: -1200px 0; }
+}
+.mangekyou-sprite {
+  background-color: red;
+}
+
+  </style>
+</head>
+<body class="modo-susano">
+<div class="mangekyou-sprite"></div>
+
+  <canvas id="chakraCanvas"></canvas>
+  <button class="botao-modo" onclick="alternarModo()">🌓 Alternar Modo</button>
+
+  <audio autoplay loop hidden>
+    <source src="audio/12.mp3" type="audio/mpeg" />
+  </audio>
+
+  <h1>🌒 Galeria Oculta — Fragmentos de Kurosaki</h1>
+  <p class="introducao">
+    Esta galeria revela as aparições ocultas de Kurosaki — vestes ANBU, reflexos do selo dragão e lembranças seladas nas sombras do tempo.
+  </p>
+
+  <div class="galeria-container">
+    <div class="bloco-imagem">
+      <img id="loopKurosaki" class="chakra-ativo" src="imagens/kurosaki.png" alt="Kurosaki em sua forma shinobi" />
+      <p id="legendaKurosaki">“Traje ANBU em missão noturna no País do Ferro.”</p>
+    </div>
+  </div>
+
+  <div class="voltar">
+    <a href="kurosaki.html">🔙 Voltar para o Perfil de Kurosaki</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Portal SHINOBI — Kurosaki • Hinara • ANBU  
+    <br />
+    “Sombras revelam o verdadeiro selo dentro do portador.”
+  </footer>
+
+  <!-- ⤵️ JavaScript será colado abaixo -->
+  <script>
+    const imagens = [
+      "imagens/uni-2.png",
+      "imagens/uni-3.png",
+      "imagens/uni-4.png",
+      "imagens/tatoo.png",
+      "imagens/tunica-roxa.png",
+      "imagens/kurosaki.png",
+      "imagens/guardiao.png"
+    ];
+
+    const legendas = [
+      "“Traje ANBU em missão noturna no País do Ferro.”",
+      "“Vestes cerimoniais usadas no Conselho de Jounins.”",
+      "“Forma oculta do selo Dragão — ativado sob lua cheia.”",
+      "“Espada lunar empunhada na batalha contra Yamazaki.”",
+      "“Símbolo do clã gravado na pele como jutsu eterno.”",
+      "“Vestes do despertar espiritual — canalizando o selo.”",
+      "“Guardião ancestral ativado sob eclipse do chakra.”"
+    ];
+
+    let index = 0;
+    const img = document.getElementById("loopKurosaki");
+    const legenda = document.getElementById("legendaKurosaki");
+
+    img.src = imagens[0];
+    legenda.textContent = legendas[0];
+
+    setInterval(() => {
+      img.style.opacity = 0.4;
+      setTimeout(() => {
+        index = (index + 1) % imagens.length;
+        img.src = imagens[index];
+        legenda.textContent = legendas[index];
+        img.style.opacity = 1;
+      }, 300);
+    }, 5000);
+
+    function alternarModo() {
+      document.body.classList.toggle("modo-susano");
+      document.body.classList.toggle("modo-anbu");
+    }
+
+    const canvas = document.getElementById("chakraCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function ajustarCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    ajustarCanvas();
+    window.addEventListener("resize", ajustarCanvas);
+
+    let angulo = 0;
+    function desenharChakra() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const raio = 60;
+      const centroX = canvas.width / 2;
+      const centroY = canvas.height / 2;
+
+      ctx.beginPath();
+      ctx.arc(
+        centroX + Math.cos(angulo) * 50,
+        centroY + Math.sin(angulo) * 50,
+        raio,
+        0,
+        Math.PI * 2
+      );
+      ctx.strokeStyle = document.body.classList.contains("modo-susano")
+        ? "rgba(236, 3, 3, 0.6)"
+        : "rgba(144, 202, 249, 0.6)";
+      ctx.lineWidth = 4;
+      ctx.stroke();
+
+      angulo += 0.015;
+      requestAnimationFrame(desenharChakra);
+    }
+    desenharChakra();
+  </script>
+</body>
+</html>

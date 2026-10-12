@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Galeria de Kurosaki & Mei</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Fundo */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000 url('img/casal.png') no-repeat top center;
+      background-size: cover;
+      background-attachment: scroll;
+      color: #fff;
+      font-family: 'Cinzel Decorative', serif;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      text-shadow: 2px 2px 10px #000;
+    }
+
+    .name-kurosaki {
+      color: #c0392b;
+      text-shadow: 0 0 15px rgba(192,57,43,0.7);
+    }
+
+    .name-mei {
+      color: #4a9eba;
+      text-shadow: 0 0 15px rgba(74,158,186,0.7);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+.slideshow {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  /* altura automática conforme a imagem */
+}
+
+.slideshow img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: auto;           /* altura natural */
+  object-fit: contain;    /* mostra a imagem inteira */
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slideshow img.active {
+  opacity: 1;
+  position: relative;     /* a imagem ativa ocupa espaço no fluxo */
+}
+
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .slideshow:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay-text {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      transition: color 0.5s, text-shadow 0.5s;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: rgba(200,216,232,0.5);
+    }.top-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.nav-link {
+  color: #c9a84c;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.nav-link:hover {
+  color: #4a9eba; /* azul água */
+  text-shadow: 0 0 10px rgba(74,158,186,0.8);
+}
+
+
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="musicas/10.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+  <header>
+  <nav class="top-nav">
+    <a href="index2.html" class="nav-link">🏠 Início</a>
+    <a href="mei.html" class="nav-link">Mei</a>
+    <a href="kurosaki.html" class="nav-link">Kurosaki</a>
+  </nav>
+  <h1><span class="name-kurosaki">Kurosaki</span> & <span class="name-mei">Mei Terumi</span></h1>
+  <p>Galeria dedicada ao casal — água e fogo unidos</p>
+</header>
+
+  <section class="gallery-grid">
+    <div class="slideshow">
+      <img src="img/noiva.png" class="active" alt="Kurosaki e a Tatuagem Dracônica">
+      <img src="img/noivo.png" alt="Kurosaki e a Tatuagem Dracônica 2">
+      <img src="img/noivos.png" alt="Kurosaki e a Tatuagem Dracônica 3">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Noivos</span></div>
+    </div>
+
+    <div class="slideshow">
+      <img src="img/casamento1.png" class="active" alt="A Caverna dos Dragões">
+      <img src="img/casamento.png" alt="Casamento 1">
+      <img src="img/casamento6.png" alt="Casamento 2">
+      <img src="img/casamento7.png" alt="Casamento 3">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">O Casamento </span></div>
+    </div>
+
+    <div class="slideshow">
+      <img src="img/lua-de-mel.png" class="active" alt="Lua de Mel">
+      <img src="img/jantar.png" alt="Lua de Mel 1">
+      <img src="img/jantar1.png" alt="Lua de Mel 2">
+      <img src="img/praia.png" alt="Lua de Mel 3">
+      <img src="img/praia2.png" alt="Luade Mel 4">
+      <img src="img/praia3.png" alt="Luade Mel 5">
+      <img src="img/praia4.png" alt="Lua de Mel 6">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Lua de Mei </span></div>
+    </div>
+
+    <div class="slideshow">
+      <img src="img/festival0.png" class="active" alt="Festival da Névoa">
+      <img src="img/festival1.png" alt="Festival da Névoa 1">
+      <img src="img/festival2.png" alt="Festival da Névoa 2">
+      <img src="img/festival3.png" alt="Festival da Névoa 4">
+      <img src="img/festival4.png" alt="Festival da Névoa 5">
+      <img src="img/festival5.png" alt="Festival da Névoa 6">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Festival da Névoa</span></div>
+    </div>
+
+     <div class="slideshow">
+      <img src="img/kages.png" class="active" alt="KuroMei">
+      <img src="img/kages2.png" alt="Kurosaki & Mei 1">
+      <img src="img/kuromei.png" alt="Kurosaki & Mei 2">
+      <img src="img/kuromei1.png" alt="Kurosaki & Mei 3">
+      <img src="img/casal.png" alt="Kurosaki & Mei 4">
+      <img src="img/casal2.png" alt="Kurosaki & Mei 5">
+      <img src="img/aguaefogo.png" alt="Kurosaki & Mei 6">
+      <img src="img/casalenda.png" alt="Kurosaki & Mei 7">
+      <img src="img/meikuro.png" alt="Kurosaki & Mei 8">
+      <img src="img/mizuhoka.png" alt="Kurosaki & Mei 9">
+      <img src="img/mizu&hoka.png" alt="Kurosaki & Mei 10">
+      <img src="img/treino.png" alt="Kurosaki & Mei 11">
+      <img src="img/momento.png" alt="Kurosaki & Mei 12">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Kurosaki & Mei</span></div>
+    </div>
+    
+
+    <!-- Continue adicionando slideshows para cada sessão -->
+  </section>
+
+  <footer>
+    Portal Shinobi — Galeria Kurosaki & Mei © 2026
+  </footer>
+
+  <script>
+    // Alterna imagens em cada slideshow
+    document.querySelectorAll('.slideshow').forEach(slideshow => {
+      const imgs = slideshow.querySelectorAll('img');
+      let index = 0;
+      setInterval(() => {
+        imgs[index].classList.remove('active');
+        index = (index + 1) % imgs.length;
+        imgs[index].classList.add('active');
+      }, 3000); // troca a cada 3 segundos
+    });
+
+    // Efeito de cor alternando nas legendas
+    document.querySelectorAll('.gallery-overlay-text').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        el.style.color = "#4a9eba"; // azul água
+        el.style.textShadow = "0 0 10px rgba(74,158,186,0.8)";
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.color = "#c0392b"; // vermelho fogo
+        el.style.textShadow = "0 0 10px rgba(192,57,43,0.8)";
+      });
+    });
+  </script>
+</body>
+</html>

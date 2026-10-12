@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Linha do Tempo - Hinara Hyuuga</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6a1b9a;
+      margin-bottom: 1rem;
+    }
+
+    p.subtitulo {
+      text-align: center;
+      font-style: italic;
+      color: #8e24aa;
+      margin-bottom: 3rem;
+    }
+
+.linha-do-tempo {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-left: 2rem;         /* alinha à esquerda */
+  margin-right: auto;        /* evita centralização */
+  border-left: 3px solid #ce93d8;
+  padding-left: 2rem;
+}
+
+    .evento {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease;
+      cursor: pointer;
+    }
+
+    .evento.visivel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .evento::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      background-color: #ab47bc;
+      border: 2px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px #ce93d8;
+    }
+
+    .icone {
+      position: absolute;
+      left: -2.5rem;
+      top: 0;
+      font-size: 1.3rem;
+    }
+
+    .conteudo {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      backdrop-filter: blur(3px);
+      transition: background 0.3s ease;
+    }
+
+    .conteudo h3 {
+      color: #6a1b9a;
+      margin-bottom: 0.5rem;
+    }
+
+    .detalhes {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .conteudo.ativo .detalhes {
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 0.5rem;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .voltar a {
+      background-color: #6a1b9a;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .voltar a:hover {
+      background-color: #8e24aa;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    body.modo-noturno {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    body.modo-noturno .conteudo {
+      background-color: rgba(33,33,33,0.7);
+      color: #eee;
+    }
+
+    body.modo-noturno .conteudo h3 {
+      color: #e1bee7;
+    }
+
+    body.modo-noturno .voltar a {
+      background-color: #ba68c8;
+      color: #1a1a1a;
+    }
+    #chakraCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+body {
+  background-image: url("imagens/guerreira.png");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+  </style>
+</head>
+<body>
+  <canvas id="chakraCanvas"></canvas>
+
+  <h1>Linha do Tempo de Hinara Hyuuga</h1>
+  <p class="subtitulo">Do clã da visão ao coração da cura 🌸</p>
+
+  <section class="linha-do-tempo">
+
+    <div class="evento">
+      <span class="icone">🌸</span>
+      <div class="conteudo">
+        <h3>Formação no Clã Hyuuga</h3>
+        <div class="resumo">Treinada pelas matriarcas do ramo principal, Hinara dominou o Byakugan e o Jūken ainda na adolescência.</div>
+        <div class="detalhes">
+          <p>Ela buscava equilíbrio entre a tradição rígida e uma nova geração mais empática. Sua formação foi marcada pela disciplina e compaixão.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="evento">
+      <span class="icone">🍃</span>
+      <div class="conteudo">
+        <h3>Encontro com Kurosaki</h3>
+        <div class="resumo">Em um embate de treino intenso, Hinara enfrenta Kurosaki pela primeira vez — e ali nasce uma aliança improvável.</div>
+        <div class="detalhes">
+          <p>Apesar das diferenças, a confiança mútua cresceu. Juntos, descobririam novas técnicas e sentimentos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="evento">
+      <span class="icone">🏥</span>
+      <div class="conteudo">
+        <h3>Especialista em Suporte Médico</h3>
+        <div class="resumo">Hinara decide estudar técnicas de cura e se torna uma jounin médica respeitada no hospital ninja.</div>
+        <div class="detalhes">
+          <p>Combinando habilidades de controle de chakra e sensibilidade, ela salvou dezenas durante a reconstrução da vila.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="evento">
+      <span class="icone">🌧️</span>
+      <div class="conteudo">
+        <h3>Missão em Amegakure</h3>
+        <div class="resumo">Hinara atua ao lado de Kurosaki em missão rank-S, sob chuva constante, usando sua névoa curativa pela primeira vez.</div>
+        <div class="detalhes">
+          <p>A batalha foi dura, mas sua técnica dispersou o veneno que cobria o campo. Sua presença virou lenda entre os sobreviventes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="evento">
+      <span class="icone">🐉</span>
+      <div class="conteudo">
+        <h3>Cerimônia do Traje do Dragão</h3>
+        <div class="resumo">Reconhecida pelos anciãos, Hinara recebe o traje cerimonial da linhagem Hyuuga.</div>
+        <div class="detalhes">
+          <p>Ao vestir o manto roxo da linhagem espiritual, Hinara assume o papel de conselheira da vila e guardiã dos segredos do clã.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="evento">
+      <span class="icone">💠</span>
+      <div class="conteudo">
+        <h3>Criação do Jutsu de Cura Nebulosa</h3>
+        <div class="resumo">Hinara desenvolve um jutsu original que combina chakra de cura com umidade do ar.</div>
+        <div class="detalhes">
+          <p>Essa técnica permite restaurar aliados à distância com névoa purificadora. Tornou-se sua assinatura em campo.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="voltar">
+    <a href="hinara.html">← Voltar para o Perfil da Hinara</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Portal Shinobi — Linha do Tempo: Hinara Hyuuga
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+  // Animação ao rolar
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visivel");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll(".evento").forEach(el => observer.observe(el));
+
+  // Clique para expandir detalhes
+  const blocos = document.querySelectorAll(".conteudo");
+  blocos.forEach(bloco => {
+    bloco.addEventListener("click", () => {
+      bloco.classList.toggle("ativo");
+    });
+  });
+</script>
+<script>
+  window.addEventListener("load", () => {
+    const canvas = document.getElementById("chakraCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    function ajustarCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    ajustarCanvas();
+    window.addEventListener("resize", ajustarCanvas);
+    
+    const particulas = Array.from({ length: 5000 }, () => ({
+      x: Math.random() * width,
+      y: height + Math.random() * 5000,
+      r: Math.random() * 3 + 1,
+      speed: Math.random() * 1.5 + 1,
+      opacity: Math.random() * 0.4 + 0.1
+    }));
+
+    function animarChakra() {
+      ctx.clearRect(0, 0, width, height);
+      particulas.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(186, 104, 200, ${p.opacity})`;
+        ctx.fill();
+        p.y -= p.speed;
+        if (p.y < -10) {
+          p.y = height + Math.random() * 100;
+          p.x = Math.random() * width;
+        }
+      });
+      requestAnimationFrame(animarChakra);
+    }
+
+    animarChakra();
+  });
+</script>
+
+</body>
+</html>

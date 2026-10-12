@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kurosaki & Mei Terumi — A Lenda da Névoa e do Dragão</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #0a0a0f;
+      --deep: #07080d;
+      --mist: #c8d8e8;
+      --water: #4a9eba;
+      --lava: #c0392b;
+      --ember: #e67e22;
+      --gold: #c9a84c;
+      --dragon: #8b0000;
+      --fog: rgba(200,216,232,0.06);
+      --glow-water: rgba(74,158,186,0.4);
+      --glow-lava: rgba(192,57,43,0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--deep);
+      color: var(--mist);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--water); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%); transition: background 0.3s; mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      width: 32px; height: 32px; border: 1px solid rgba(74,158,186,0.5); border-radius: 50%;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%); transition: transform 0.12s ease, width 0.3s, height 0.3s, border-color 0.3s;
+    }
+
+    .site-wrapper { position: relative; z-index: 1; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: linear-gradient(to bottom, rgba(7,8,13,0.95), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 0.9rem; color: var(--gold); letter-spacing: 0.15em; text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); text-decoration: none; opacity: 0.7; transition: opacity 0.3s, color 0.3s; }
+    .nav-links a:hover { opacity: 1; color: var(--water); }
+
+    #hero { min-height: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem 2rem; position: relative; overflow: hidden; }
+
+    .hero-kamon { width: 120px; height: 120px; margin-bottom: 3rem; opacity: 0; animation: fadeDown 1.2s 0.3s ease forwards; }
+    .hero-subtitle { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--water); margin-bottom: 1.5rem; opacity: 0; animation: fadeDown 1s 0.6s ease forwards; }
+    .hero-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 900; line-height: 1.1; letter-spacing: 0.05em; margin-bottom: 0.5rem; opacity: 0; animation: fadeDown 1s 0.8s ease forwards; }
+    .hero-title .name-kurosaki { color: var(--lava); text-shadow: 0 0 60px var(--glow-lava), 0 0 120px rgba(192,57,43,0.2); display: block; }
+    .hero-title .amp { font-size: 0.5em; color: var(--gold); display: block; margin: 0.3em 0; }
+    .hero-title .name-mei { color: var(--water); text-shadow: 0 0 60px var(--glow-water), 0 0 120px rgba(74,158,186,0.2); display: block; }
+    .hero-tagline { font-style: italic; font-size: 1.15rem; color: rgba(200,216,232,0.6); margin-top: 2rem; max-width: 500px; line-height: 1.8; opacity: 0; animation: fadeDown 1s 1.2s ease forwards; }
+    .hero-scroll { margin-top: 4rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeDown 1s 1.6s ease forwards; }
+    .hero-scroll span { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(200,216,232,0.4); }
+    .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--water), transparent); animation: pulseHeight 2s ease-in-out infinite; }
+
+    .section-divider { text-align: center; padding: 1rem 0; opacity: 0.3; font-size: 1.5rem; letter-spacing: 1em; color: var(--gold); }
+
+    section { padding: 8rem 2rem; max-width: 1200px; margin: 0 auto; }
+    section.full-width { max-width: 100%; padding-left: 0; padding-right: 0; }
+
+    .section-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--water); display: block; margin-bottom: 1rem; }
+    .section-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: #fff; margin-bottom: 3rem; line-height: 1.2; }
+    .section-title span { color: var(--gold); }
+
+    #perfis { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; }
+
+    .profile-card { position: relative; border: 1px solid rgba(200,216,232,0.1); padding: 3rem; overflow: hidden; transition: border-color 0.4s, transform 0.4s; }
+    .profile-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+    .profile-card.kurosaki::before { background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.12), transparent 70%); }
+    .profile-card.mei::before { background: radial-gradient(ellipse at 50% 0%, rgba(74,158,186,0.12), transparent 70%); }
+    .profile-card:hover { transform: translateY(-4px); border-color: rgba(200,216,232,0.25); }
+    .profile-card:hover::before { opacity: 1; }
+
+    .profile-avatar { width: 100%; height: 280px; object-fit: cover; display: block; margin-bottom: 2rem; filter: grayscale(20%) contrast(1.05); }
+    .profile-avatar-placeholder { width: 100%; height: 280px; margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; overflow: hidden; }
+    .profile-avatar-placeholder.kurosaki-bg { background: linear-gradient(135deg, #1a0505 0%, #2d0a0a 40%, #0a0a0f 100%); border: 1px solid rgba(192,57,43,0.3); }
+    .profile-avatar-placeholder.mei-bg { background: linear-gradient(135deg, #041218 0%, #071e2a 40%, #0a0a0f 100%); border: 1px solid rgba(74,158,186,0.3); }
+
+    .profile-clan { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .kurosaki .profile-clan { color: var(--lava); }
+    .mei .profile-clan { color: var(--water); }
+    .profile-name { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .profile-title { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1.5rem; }
+    .profile-bio { font-size: 0.95rem; line-height: 1.9; color: rgba(200,216,232,0.75); margin-bottom: 2rem; }
+
+    .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat { border-top: 1px solid rgba(200,216,232,0.1); padding-top: 0.8rem; }
+    .stat-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,216,232,0.4); margin-bottom: 0.3rem; }
+    .stat-value { font-size: 0.9rem; color: var(--mist); }
+
+    .abilities-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .ability-tag { padding: 0.3rem 0.8rem; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid; transition: background 0.3s; }
+    .kurosaki .ability-tag { border-color: rgba(192,57,43,0.4); color: rgba(230,100,80,0.9); }
+    .kurosaki .ability-tag:hover { background: rgba(192,57,43,0.15); }
+    .mei .ability-tag { border-color: rgba(74,158,186,0.4); color: rgba(100,180,210,0.9); }
+    .mei .ability-tag:hover { background: rgba(74,158,186,0.15); }
+
+    #historia { padding: 8rem 4rem; max-width: 900px; margin: 0 auto; }
+
+    .timeline { position: relative; margin-top: 4rem; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--gold), var(--water), transparent); transform: translateX(-50%); }
+
+    .timeline-item { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; margin-bottom: 4rem; opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .timeline-item.visible { opacity: 1; transform: translateY(0); }
+    .timeline-item:nth-child(odd) .timeline-content { grid-column: 1; text-align: right; padding-right: 3rem; }
+    .timeline-item:nth-child(odd) .timeline-empty { grid-column: 3; }
+    .timeline-item:nth-child(even) .timeline-empty { grid-column: 1; }
+    .timeline-item:nth-child(even) .timeline-content { grid-column: 3; text-align: left; padding-left: 3rem; }
+    .timeline-center { grid-column: 2; display: flex; align-items: center; justify-content: center; }
+    .timeline-node { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--gold); background: var(--deep); position: relative; z-index: 2; }
+    .timeline-node::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); }
+
+    .timeline-chapter { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+    .timeline-heading { font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; color: #fff; margin-bottom: 0.8rem; }
+    .timeline-text { font-size: 0.9rem; line-height: 1.9; color: rgba(200,216,232,0.65); }
+    .timeline-quote { font-style: italic; border-left: 2px solid var(--gold); padding-left: 1rem; margin-top: 1rem; color: rgba(201,168,76,0.8); font-size: 0.95rem; }
+    .timeline-item:nth-child(odd) .timeline-quote { border-left: none; border-right: 2px solid var(--gold); padding-left: 0; padding-right: 1rem; }
+
+    #galeria { padding: 8rem 4rem; }
+    #galeria .section-title { text-align: center; }
+    #galeria .section-label { text-align: center; display: block; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; gap: 1.5rem; margin-top: 3rem; }
+    .gallery-item { position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 4/5; }
+    .gallery-item:nth-child(1) { grid-column: 1; grid-row: 1 / 3; aspect-ratio: auto; }
+    .gallery-item:nth-child(4) { grid-column: 3; grid-row: 1 / 3; aspect-ratio: auto; }
+    .gallery-placeholder { width: 100%; height: 100%; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; transition: transform 0.5s ease; }
+    .gallery-item:hover .gallery-placeholder { transform: scale(1.03); }
+    .gallery-placeholder .gallery-icon { font-size: 2.5rem; opacity: 0.5; }
+    .gallery-placeholder .gallery-caption { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,216,232,0.5); text-align: center; padding: 0 1rem; }
+    .g1 { background: linear-gradient(160deg, #1a0505, #2a0000, #0d0d18); border: 1px solid rgba(192,57,43,0.25); }
+    .g2 { background: linear-gradient(160deg, #040f18, #061520, #0a0a15); border: 1px solid rgba(74,158,186,0.25); }
+    .g3 { background: linear-gradient(160deg, #0d1005, #111500, #0a0f0a); border: 1px solid rgba(100,130,50,0.2); }
+    .g4 { background: linear-gradient(160deg, #0a0510, #150a1a, #0a0a15); border: 1px solid rgba(139,0,139,0.2); }
+    .g5 { background: linear-gradient(160deg, #100800, #1a0f00, #0a0a0f); border: 1px solid rgba(201,168,76,0.2); }
+    .g6 { background: linear-gradient(160deg, #03080f, #041020, #07080d); border: 1px solid rgba(30,80,120,0.3); }
+    .gallery-overlay { position: absolute; inset: 0; background: rgba(7,8,13,0.7); display: flex; align-items: flex-end; padding: 1.5rem; opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-text { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+    #missoes { padding: 8rem 4rem; max-width: 1000px; margin: 0 auto; }
+    .missions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
+    .mission-card { border: 1px solid rgba(200,216,232,0.08); padding: 2rem; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
+    .mission-card:hover { border-color: rgba(200,216,232,0.2); transform: translateY(-3px); }
+    .mission-card::after { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+    .mission-s .mission-card::after { background: linear-gradient(to bottom, var(--gold), transparent); }
+    .mission-a .mission-card::after { background: linear-gradient(to bottom, var(--lava), transparent); }
+    .mission-b .mission-card::after { background: linear-gradient(to bottom, var(--water), transparent); }
+    .mission-rank { display: inline-block; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.3em; padding: 0.2rem 0.7rem; border: 1px solid; margin-bottom: 1rem; }
+    .mission-s .mission-rank { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .mission-a .mission-rank { color: var(--lava); border-color: rgba(192,57,43,0.4); }
+    .mission-b .mission-rank { color: var(--water); border-color: rgba(74,158,186,0.4); }
+    .mission-name { font-family: 'Cinzel Decorative', serif; font-size: 1rem; color: #fff; margin-bottom: 0.8rem; }
+    .mission-desc { font-size: 0.88rem; line-height: 1.8; color: rgba(200,216,232,0.6); margin-bottom: 1rem; }
+    .mission-participants { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .participant-tag { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; padding: 0.2rem 0.6rem; background: rgba(200,216,232,0.05); border: 1px solid rgba(200,216,232,0.1); color: rgba(200,216,232,0.6); }
+
+    #votos { padding: 10rem 2rem; text-align: center; position: relative; }
+    .vows-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.05) 0%, transparent 70%); pointer-events: none; }
+    .vows-ornament { font-size: 3rem; color: var(--gold); opacity: 0.3; margin-bottom: 2rem; }
+    .vows-text { font-size: clamp(1.2rem, 3vw, 2rem); font-style: italic; line-height: 1.9; color: rgba(200,216,232,0.8); max-width: 700px; margin: 0 auto 3rem; }
+    .vows-attribution { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); }
+
+    #simbolos { padding: 6rem 4rem; max-width: 900px; margin: 0 auto; text-align: center; }
+    .symbols-row { display: flex; justify-content: center; align-items: center; gap: 5rem; margin-top: 3rem; }
+    .symbol-item { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .symbol-glyph { font-size: 4rem; line-height: 1; }
+    .symbol-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(200,216,232,0.5); }
+    .symbol-desc { font-size: 0.85rem; font-style: italic; color: rgba(200,216,232,0.4); max-width: 160px; text-align: center; line-height: 1.6; }
+
+    footer { padding: 4rem 2rem; text-align: center; border-top: 1px solid rgba(200,216,232,0.08); }
+    .footer-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 1rem; }
+    .footer-text { font-size: 0.8rem; color: rgba(200,216,232,0.3); letter-spacing: 0.1em; }
+    .footer-text a { color: var(--water); text-decoration: none; }
+
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulseHeight { 0%, 100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.7); opacity: 0.5; } }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; } .nav-links { gap: 1.5rem; }
+      #perfis { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 2rem; }
+      #historia { padding: 4rem 2rem; }
+      .timeline::before { left: 20px; }
+      .timeline-item { grid-template-columns: 40px 1fr; }
+      .timeline-item:nth-child(odd) .timeline-content, .timeline-item:nth-child(even) .timeline-content { grid-column: 2; text-align: left; padding: 0 0 0 1.5rem; }
+      .timeline-item:nth-child(odd) .timeline-empty, .timeline-item:nth-child(even) .timeline-empty { display: none; }
+      .timeline-center { grid-column: 1; }
+      .timeline-item:nth-child(odd) .timeline-quote { border-left: 2px solid var(--gold); border-right: none; padding-left: 1rem; padding-right: 0; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: auto; grid-row: auto; }
+      .missions-grid { grid-template-columns: 1fr; }
+      #galeria, #missoes, #simbolos { padding: 4rem 2rem; }
+      .symbols-row { flex-wrap: wrap; gap: 2.5rem; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.2rem; }
+    }
+
+    .timeline-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--water);
+  text-decoration: none;
+  border: 1px solid var(--water);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+.timeline-link:hover {
+  background: var(--water);
+  color: #fff;
+}
+.intro-mei {
+  background: rgba(0,0,0,0.6);   /* fundo translúcido para destacar o texto */
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(74,158,186,0.5); /* brilho suave azul */
+}
+
+.intro-mei h2 {
+  font-size: 2rem;
+  color: #4a9eba; /* azul água */
+  text-shadow: 0 0 10px rgba(74,158,186,0.8);
+  margin-bottom: 1rem;
+}
+
+.intro-mei p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin-bottom: 2rem;
+}
+
+.intro-mei .btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: #c0392b; /* vermelho lava */
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.intro-mei .btn:hover {
+  background: #4a9eba; /* muda para azul água no hover */
+  box-shadow: 0 0 15px rgba(74,158,186,0.8);
+}
+.intro-vila {
+  background: rgba(20,30,40,0.7);   /* fundo translúcido mais escuro, lembrando névoa */
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(150,180,200,0.4); /* brilho suave acinzentado */
+}
+
+.intro-vila h2 {
+  font-size: 2rem;
+  color: #9bbcd1; /* azul acinzentado */
+  text-shadow: 0 0 12px rgba(155,188,209,0.8);
+  margin-bottom: 1rem;
+}
+
+.intro-vila p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e6eb; /* cinza claro */
+  margin-bottom: 2rem;
+}
+
+.intro-vila .btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: #4a9eba; /* azul água */
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.intro-vila .btn:hover {
+  background: #c9a84c; /* dourado para contraste */
+  box-shadow: 0 0 15px rgba(201,168,76,0.8);
+}
+.noticia-sanbi {
+  background: rgba(0,0,0,0.7);
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(192,57,43,0.4); /* brilho vermelho lava */
+}
+
+.noticia-sanbi h2 {
+  font-size: 2rem;
+  color: #c0392b; /* vermelho lava */
+  text-shadow: 0 0 12px rgba(192,57,43,0.8);
+  margin-bottom: 1rem;
+}
+
+.noticia-sanbi h3 {
+  font-size: 1.5rem;
+  color: #4a9eba; /* azul água */
+  margin-bottom: 1rem;
+}
+
+.noticia-sanbi p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #eee;
+  margin-bottom: 2rem;
+}
+
+.noticia-sanbi .btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: #4a9eba;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.noticia-sanbi .btn:hover {
+  background: #c0392b;
+  box-shadow: 0 0 15px rgba(192,57,43,0.8);
+}
+
+
+  </style>
+  </head>
+  <body>
+    <section id="votos">
+    <div class="vows-bg"></div>
+    <div class="vows-ornament">⸻ 龍 ⸻</div>
+    <p class="vows-text">
+      "Não era política.<br/>Não era aliança entre vilas.<br/>Era simplesmente dois ninjas que viram um ao outro<br/>além de toda a névoa e toda a chama —<br/>e escolheram ficar."
+    </p>
+    <div class="vows-attribution">Kurosaki Nero, na colina à beira-mar · Kirigakure</div>
+  </section>
+<canvas id="bg-canvas"></canvas>
+
+<canvas id="particulas"></canvas>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="site-wrapper">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">龍 & 霧</a>
+    <ul class="nav-links">
+      <li><a href="#perfis">Perfis</a></li>
+      <li><a href="#historia">História</a></li>
+      <li><a href="galeria-kuromei.html" style="color:var(--water); text-decoration:none;">Galeria</a></li>
+      <li><a href="#missoes">Missões</a></li>
+      <li><a href="nevoa.html" class="nav-link">Vila da Névoa</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <svg class="hero-kamon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="55" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+      <circle cx="60" cy="60" r="45" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+      <path d="M30 60 Q40 30 60 25 Q80 20 90 40 Q100 55 85 70 Q75 80 60 78 Q45 76 40 85 Q35 90 30 80 Q25 70 30 60Z"
+        stroke="rgba(201,168,76,0.6)" stroke-width="1" fill="none"/>
+      <path d="M20 75 Q35 65 50 75 Q65 85 80 75 Q95 65 105 75"
+        stroke="rgba(74,158,186,0.5)" stroke-width="1.5" fill="none"/>
+      <path d="M55 45 Q60 35 65 45 Q68 55 60 58 Q52 55 55 45Z"
+        stroke="rgba(192,57,43,0.6)" stroke-width="1" fill="rgba(192,57,43,0.1)"/>
+      <circle cx="60" cy="60" r="3" fill="rgba(201,168,76,0.6)"/>
+    </svg>
+
+    <span class="hero-subtitle">Universo Naruto — Fanfic Original</span>
+
+    <h1 class="hero-title">
+      <span class="name-kurosaki">Kurosaki</span>
+      <span class="amp">&</span>
+      <span class="name-mei">Mei Terumi</span>
+    </h1>
+
+    <p class="hero-tagline">
+      "Entre a chama do dragão e as águas da névoa,<br/>
+      dois ninjas encontraram o que nenhuma missão<br/>
+      poderia ensinar — o verdadeiro lar."
+    </p>
+
+    <div class="hero-scroll">
+      <span>Desça para descobrir</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="section-divider">⸻ ⸻ ⸻</div>
+
+  <!-- PERFIS -->
+  <div id="perfis">
+    <!-- KUROSAKI -->
+    <div class="profile-card kurosaki">
+      <div class="profile-avatar-placeholder kurosaki-bg">
+        <svg viewBox="0 0 120 140" width="80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="50" r="30" fill="none" stroke="rgba(192,57,43,0.5)" stroke-width="2"/>
+          <circle cx="60" cy="50" r="20" fill="rgba(192,57,43,0.15)" stroke="rgba(192,57,43,0.4)" stroke-width="1.5"/>
+          <circle cx="60" cy="50" r="8" fill="rgba(192,57,43,0.5)"/>
+          <circle cx="60" cy="50" r="3" fill="rgba(10,10,15,0.9)"/>
+          <circle cx="60" cy="32" r="3.5" fill="rgba(192,57,43,0.7)"/>
+          <circle cx="74" cy="62" r="3.5" fill="rgba(192,57,43,0.7)"/>
+          <circle cx="46" cy="62" r="3.5" fill="rgba(192,57,43,0.7)"/>
+          <path d="M25 95 Q40 80 60 85 Q80 90 95 80 Q100 100 85 110 Q70 118 55 115 Q35 112 25 95Z"
+            fill="none" stroke="rgba(192,57,43,0.35)" stroke-width="1.5"/>
+          <path d="M35 110 Q50 120 65 118" stroke="rgba(192,57,43,0.25)" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+      <span class="profile-clan">Clã Uchiha · Clã Hyuuga · Clã Kurosaki</span>
+      <h2 class="profile-name">UchiHyuuga Kurosaki Nero</h2>
+      <p class="profile-title">Hokage Interino de Konoha · O Portador do Dragão</p>
+      <p class="profile-bio">
+        Descendente de três dos clãs mais poderosos de Konoha, Kurosaki carrega o peso e o legado de cada um deles.
+        Sua tatuagem dracônica ancestral — um selo vivo que percorre tornozelo, perna, costas, braço e peito —
+        é o símbolo de seu pacto com Ryūkō, o dragão primordial.
+        Ninja de força incomum, mas de coração ainda mais raro: gentil, honrado, e leal àqueles que ama.
+      </p>
+      <div class="profile-stats">
+        <div class="stat"><div class="stat-label">Vila</div><div class="stat-value">Konohagakure</div></div>
+        <div class="stat"><div class="stat-label">Rank</div><div class="stat-value">Hokage Interino</div></div>
+        <div class="stat"><div class="stat-label">Invocação</div><div class="stat-value">Ryūkō — Dragão Ancestral</div></div>
+        <div class="stat"><div class="stat-label">Parceira</div><div class="stat-value">Mei Terumi</div></div>
+      </div>
+      <div class="abilities-list">
+        <span class="ability-tag">Sharingan</span>
+        <span class="ability-tag">Mangekyō</span>
+        <span class="ability-tag">Byakugan</span>
+        <span class="ability-tag">Ōmegagan</span>
+        <span class="ability-tag">Susanoo</span>
+        <span class="ability-tag">Enton</span>
+        <span class="ability-tag">Jinton</span>
+        <span class="ability-tag">Hiraishin</span>
+        <span class="ability-tag">Fênix Negra</span>
+        <span class="ability-tag">Rasengan Elemental</span>
+      </div>
+    </div>
+
+    <!-- MEI -->
+    <div class="profile-card mei">
+      <div class="profile-avatar-placeholder mei-bg">
+        <svg viewBox="0 0 120 140" width="80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="50" r="28" fill="none" stroke="rgba(74,158,186,0.5)" stroke-width="2"/>
+          <path d="M35 45 Q45 38 55 45 Q65 52 75 45 Q85 38 90 45"
+            stroke="rgba(74,158,186,0.7)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M32 55 Q42 48 52 55 Q62 62 72 55 Q82 48 88 55"
+            stroke="rgba(74,158,186,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <circle cx="52" cy="65" r="5" fill="rgba(192,57,43,0.4)" stroke="rgba(192,57,43,0.6)" stroke-width="1"/>
+          <circle cx="68" cy="65" r="5" fill="rgba(192,57,43,0.4)" stroke="rgba(192,57,43,0.6)" stroke-width="1"/>
+          <path d="M20 90 Q40 82 60 88 Q80 94 100 88"
+            stroke="rgba(200,220,240,0.2)" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M25 100 Q45 93 65 98 Q85 103 100 98"
+            stroke="rgba(200,220,240,0.15)" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M30 115 Q50 105 70 110 Q90 115 100 105"
+            stroke="rgba(74,158,186,0.4)" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <span class="profile-clan">Kirigakure · Clã Terumi</span>
+      <h2 class="profile-name">Mei Terumi</h2>
+      <p class="profile-title">Quinta Mizukage · A Névoa que Abrasa</p>
+      <p class="profile-bio">
+        Uma das kunoichi mais temidas do mundo ninja, Mei Terumi é a rara portadora de dois Kekkei Genkai:
+        Lava Release e Boil Release — uma combinação que desafia qualquer adversário.
+        Determinada, apaixonada e de espírito indomável, foi ela quem viu em Kurosaki o que poucos enxergam
+        nos fortes: a gentileza que existe por trás do poder. Com ele, formou seu próprio pacto com um dragão d'água.
+      </p>
+      <div class="profile-stats">
+        <div class="stat"><div class="stat-label">Vila</div><div class="stat-value">Kirigakure</div></div>
+        <div class="stat"><div class="stat-label">Rank</div><div class="stat-value">Quinta Mizukage</div></div>
+        <div class="stat"><div class="stat-label">Invocação</div><div class="stat-value">Dragão das Águas</div></div>
+        <div class="stat"><div class="stat-label">Parceiro</div><div class="stat-value">Kurosaki Nero</div></div>
+      </div>
+      <div class="abilities-list">
+        <span class="ability-tag">Yōton (Lava)</span>
+        <span class="ability-tag">Futton (Fervura)</span>
+        <span class="ability-tag">Suiton</span>
+        <span class="ability-tag">Katon</span>
+        <span class="ability-tag">Dragão d'Água</span>
+        <span class="ability-tag">Controle de Chakra</span>
+        <span class="ability-tag">Taijutsu</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTÓRIA TIMELINE -->
+  <section id="historia">
+    <span class="section-label">Crônicas</span>
+    <h2 class="section-title">A <span>História</span> que os Une</h2>
+    <div class="timeline">
+
+  <div class="timeline-item">
+  <div class="timeline-content">
+    <div class="timeline-chapter">Capítulo I</div>
+    <h3 class="timeline-heading">O Primeiro Encontro</h3>
+    <p class="timeline-text">
+      Em uma missão diplomática entre Konoha e Kirigakure, Kurosaki pisou pela primeira vez nas ruas cobertas de névoa da Vila da Água. Mei ainda não era Mizukage — era uma kunoichi de talento raro, temida e respeitada. Os dois se conheceram em circunstâncias formais… mas perceberam rapidamente que havia algo diferente ali.
+    </p>
+    <div class="timeline-quote">Ele não via apenas a ninja poderosa.<br/>Ela viu o homem gentil por trás da força.</div>
+  </div>
+  <div class="timeline-center"><div class="timeline-node"></div></div>
+  <div class="timeline-empty"></div>
+</div>
+
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo II</div>
+          <h3 class="timeline-heading">A Caverna dos Dragões</h3>
+          <p class="timeline-text">Explorando fora da vila, os dois descobriram uma caverna ancestral escondida nas montanhas da Névoa — um portal ligado aos dragões primordiais. Ali, Kurosaki formou seu pacto com Ryūkō, recebendo a tatuagem dracônica que percorre todo seu corpo. Mais tarde, Mei formaria seu próprio elo com um dragão das águas.</p>
+          <div class="timeline-quote">O dragão escolhe seu portador.<br/>Naquela caverna, dois foram escolhidos.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo III</div>
+          <h3 class="timeline-heading">A Separação(10/05/2008)</h3>
+          <p class="timeline-text">O dever os separou. Kurosaki partiu para um treinamento extremamente duro, viajando por missões secretas em terras distantes. Mei permaneceu em Kirigakure, onde sua ascensão à liderança era inevitável. Anos se passaram. Mas nenhum dos dois esqueceu.</p>
+          <div class="timeline-quote">Nunca é um adeus...!.<br/>"Não importa aonde os ventos me levem, eles sempre acabam em você"<br>-Kurosaki.</div>
+        </div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo IV</div>
+          <h3 class="timeline-heading">O Reencontro</h3>
+          <p class="timeline-text">Sem avisar, Kurosaki voltou. Ninguém na vila sabia. Ele a encontrou nas fontes termais perto de sua casa — o mesmo lugar de antes. Risos, provocações e conversas que duraram a noite inteira. E ali ficou claro: o que sentiam nunca tinha ido embora.</p>
+          <div class="timeline-quote">"Às vezes o mundo te separa de alguém<br/>só para provar que vocês se encontrariam de volta."</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo V</div>
+          <h3 class="timeline-heading">Treinamento & O Festival</h3>
+          <p class="timeline-text">Nos dias seguintes, Mei ensinou Kurosaki técnicas avançadas de Suiton e Yōton. Desses treinos, nasceram as criações únicas de Kurosaki: o Estilo Inferno da Fênix Negra. Uma noite foram a um festival local — comendo dangos, vendo fogos de artifício, sendo apenas duas pessoas normais.</p>
+          <div class="timeline-quote">"Podíamos nos casar."<br/>— Kurosaki, ao olhar para ela naquela noite.</div>
+        </div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo VI</div>
+          <h3 class="timeline-heading">A Invasão </h3>
+          <p class="timeline-text">Orochimaru ataca konoha durante os exames chunnins... </p>
+           <div class="timeline-quote">Kurosaki volta para vila da folha e enfrenta "inimigos" lendários...<br> -"Hokages...?"<br/></div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo VII</div>
+          <h3 class="timeline-heading">Adeus...terceiro </h3>
+          <p class="timeline-text">Em uma luta intensa, Nero não consegue salvar o Sarutobi-sensei... </p>
+           <div class="timeline-quote">-" Proteja a vila....Kurosaki"<br/></div>
+        </div>
+      </div>
+
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo VIII</div>
+          <h3 class="timeline-heading">O Pedido Oficial</h3>
+          <p class="timeline-text">Na noite em que se tornou Hokage interino, Kurosaki usou o Hiraishin para chegar até Mei. Ela estava em uma colina à beira-mar. Ele caminhou até ela e disse:</p>
+          <div class="timeline-quote">"Podemos planejar nosso casamento agora?<br/>Um Hokage… e uma Mizukage."<br/><em style="font-size:0.8rem; color:rgba(200,216,232,0.5)">— Não era por política. Era por amor.</em></div>
+        </div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-empty"></div>
+        <div class="timeline-center"><div class="timeline-node"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-chapter">Capítulo IX</div>
+          <h3 class="timeline-heading">O Casamento</h3>
+          <p class="timeline-text">O evento aconteceu em território neutro. Representantes de múltiplas vilas compareceram. Kurosaki com suas vestes formais de Hokage. Mei com um vestido inspirado nas vestes da Mizukage.
+          <div class="timeline-quote">Hokage + Mizukage.<br/>Fogo e água. Dragão e névoa.<br/>Finalmente, lar.</div>
+        </div>
+      </div>
+
+    </div>
+    <section class="noticia-sanbi">
+  <h2>Notícia em Destaque</h2>
+  <h3>A Batalha contra o Sanbi</h3>
+  <p>
+    Em tempos turbulentos na Vila da Névoa, o Mizukage Yagura perdeu o controle da bijuu Sanbi. 
+    Durante uma visita à Mei, ainda jovem kunoichi, Nero enfrentou a fera em uma batalha épica. 
+    Com coragem e poder, conseguiu selar novamente o Sanbi dentro de Yagura, salvando a vila de uma catástrofe.
+  </p>
+  <a href="sanbi.html" class="btn">Leia mais sobre a batalha</a>
+</section>
+
+  </section>
+<section class="intro-mei">
+  <h2>Quem é Mei Terumi?</h2>
+  <p>Mizukage da Vila da Névoa, Mei é conhecida por sua força, inteligência e domínio dos elementos água e lava. Sua história é marcada por coragem e liderança.</p>
+  <a href="mei.html" class="btn">Leia mais sobre Mei</a>
+</section>
+  <!-- MISSÕES -->
+  <section id="missoes">
+    <span class="section-label">Registros de Campo</span>
+    <h2 class="section-title"><span>Missões</span> & Batalhas</h2>
+    <div class="missions-grid">
+      <div class="mission-s"><div class="mission-card">
+        <span class="mission-rank">Rank S</span>
+        <h3 class="mission-name">A Caverna Ancestral dos Dragões</h3>
+        <p class="mission-desc">Exploração de uma anomalia de chakra nas montanhas da Névoa. Descoberta de um portal dracônico primordial. Formação dos pactos com Ryūkō e o Dragão das Águas.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Mei Terumi</span><span class="participant-tag">Kirigakure</span></div>
+      </div></div>
+      <div class="mission-s"><div class="mission-card">
+        <span class="mission-rank">Rank S</span>
+        <h3 class="mission-name">Defesa de Konoha — Invasão de Orochimaru</h3>
+        <p class="mission-desc">Durante os Exames Chūnin, Kurosaki combateu Hashirama e Tobirama reanimados pela Edo Tensei, selando ambos. Konoha sobreviveu. O Terceiro Hokage, porém, não.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Konoha</span><span class="participant-tag">vs Orochimaru</span></div>
+      </div></div>
+      <div class="mission-a"><div class="mission-card">
+        <span class="mission-rank">Rank A</span>
+        <h3 class="mission-name">Missão Diplomática Konoha–Kiri</h3>
+        <p class="mission-desc">A primeira missão que trouxe Kurosaki às ruas de Kirigakure. Negociações formais entre as vilas — e o encontro que mudaria tudo.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Mei Terumi</span><span class="participant-tag">Konoha × Kiri</span></div>
+      </div></div>
+      <div class="mission-a"><div class="mission-card">
+        <span class="mission-rank">Rank A</span>
+        <h3 class="mission-name">Treinamento Conjunto — Técnicas Elementais</h3>
+        <p class="mission-desc">Após o reencontro, Mei treinou Kurosaki em Suiton avançado e Yōton. Desses treinos nasceu o Estilo Inferno da Fênix Negra — fusão única de Lava e Enton.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Mei Terumi</span><span class="participant-tag">Kirigakure</span></div>
+      </div></div>
+      <div class="mission-b"><div class="mission-card">
+        <span class="mission-rank">Rank B</span>
+        <h3 class="mission-name">Lua de Mel — Caverna dos Dragões</h3>
+        <p class="mission-desc">Após o casamento, os dois revisitaram a caverna ancestral. Fortaleceram seus pactos com as invocações. Um momento raro de paz para dois ninjas que carregam o mundo.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Mei Terumi</span><span class="participant-tag">Ryūkō</span><span class="participant-tag">Dragão das Águas</span></div>
+      </div></div>
+      <div class="mission-s"><div class="mission-card">
+        <span class="mission-rank">Rank S</span>
+        <h3 class="mission-name">O Casamento Histórico</h3>
+        <p class="mission-desc">O evento mais significativo da era pós-Terceiro. Um Hokage e uma Mizukage unidos em território neutro. Representantes de todas as grandes vilas presentes.</p>
+        <div class="mission-participants"><span class="participant-tag">Kurosaki Nero</span><span class="participant-tag">Mei Terumi</span><span class="participant-tag">Todas as Vilas</span></div>
+      </div></div>
+    </div>
+  </section>
+  <!-- SÍMBOLOS -->
+  <section id="simbolos">
+    <span class="section-label">Elementos</span>
+    <h2 class="section-title">Os <span>Símbolos</span> que os Definem</h2>
+    <div class="symbols-row">
+      <div class="symbol-item">
+        <div class="symbol-glyph" style="color:var(--lava); filter:drop-shadow(0 0 12px var(--glow-lava))">🔥</div>
+        <div class="symbol-label">Enton</div>
+        <div class="symbol-desc">A chama negra que não se apaga</div>
+      </div>
+      <div class="symbol-item">
+        <div class="symbol-glyph" style="color:rgba(201,168,76,0.8); filter:drop-shadow(0 0 12px rgba(201,168,76,0.4))">🐉</div>
+        <div class="symbol-label">Ryūkō</div>
+        <div class="symbol-desc">O dragão ancestral — vínculo eterno</div>
+      </div>
+      <div class="symbol-item">
+        <div class="symbol-glyph" style="color:var(--gold); filter:drop-shadow(0 0 12px rgba(201,168,76,0.4))">💍</div>
+        <div class="symbol-label">União</div>
+        <div class="symbol-desc">Hokage & Mizukage</div>
+      </div>
+      <div class="symbol-item">
+        <div class="symbol-glyph" style="color:var(--water); filter:drop-shadow(0 0 12px var(--glow-water))">🌊</div>
+        <div class="symbol-label">Suiton</div>
+        <div class="symbol-desc">A névoa que abraça</div>
+      </div>
+      <div class="symbol-item">
+        <div class="symbol-glyph" style="color:rgba(192,57,43,0.8); filter:drop-shadow(0 0 12px var(--glow-lava))">🌋</div>
+        <div class="symbol-label">Yōton</div>
+        <div class="symbol-desc">Lava que molda mundos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">龍 × 霧 — Kurosaki & Mei</div>
+    <p class="footer-text">
+      Universo original criado pelo fã · Personagens do universo <a href="#">Naruto</a> de Masashi Kishimoto<br/>
+      Kurosaki Nero é personagem original · Mei Terumi © Kishimoto
+    </p>
+  </footer>
+</div><!-- end site-wrapper -->
+
+<audio autoplay loop>
+    <source src="musicas/05.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+<script>
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], time = 0;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * 2000,
+      y: Math.random() * 1200,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: -Math.random() * 0.2 - 0.05,
+      alpha: Math.random() * 0.4 + 0.05,
+      type: Math.random() > 0.5 ? 'mist' : 'ember'
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const bg = ctx.createRadialGradient(W/2, H*0.4, 0, W/2, H/2, W*0.8);
+    bg.addColorStop(0, 'rgba(15,10,20,0.4)');
+    bg.addColorStop(1, 'rgba(7,8,13,0)');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    ctx.globalAlpha = 0.04 + 0.02 * Math.sin(time * 0.5);
+    const grad = ctx.createLinearGradient(0, H*0.6, W, H*0.6);
+    grad.addColorStop(0, 'transparent');
+    grad.addColorStop(0.5, 'rgba(74,158,186,0.8)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, H*0.59, W, 1.5);
+    ctx.restore();
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.y < -10) p.y = H + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.x < -10) p.x = W + 10;
+
+      ctx.beginPath();
+      ctx.arc(p.x % W, p.y % H, p.r, 0, Math.PI * 2);
+      if (p.type === 'mist') {
+        ctx.fillStyle = `rgba(200,216,232,${p.alpha * 0.5})`;
+      } else {
+        ctx.fillStyle = `rgba(192,57,43,${p.alpha * 0.6})`;
+      }
+      ctx.fill();
+    });
+
+    time += 0.016;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── CUSTOM CURSOR ──
+(function() {
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+  function loop() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ── TIMELINE SCROLL REVEAL ──
+(function() {
+  const items = document.querySelectorAll('.timeline-item');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(i => io.observe(i));
+})();
+
+// ── NAV ACTIVE ──
+(function() {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => {
+          l.style.color = '';
+          l.style.opacity = '';
+        });
+        navLinks.forEach(l => {
+          if (l.getAttribute('href') === '#' + e.target.id) {
+            l.style.color = 'var(--water)';
+            l.style.opacity = '1';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => io.observe(s));
+})();
+
+// ── GALLERY ──
+document.querySelectorAll('.gallery-item').forEach(item => {
+  item.style.cursor = 'pointer';
+  item.title = 'Clique para enviar uma arte aqui (em breve)';
+});
+</script>
+
+<script>
+const canvas = document.getElementById("particulas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particulas = [];
+
+for (let i = 0; i < 200; i++) { // quantidade de partículas
+  particulas.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 3 + 2, // tamanho maior
+    d: Math.random() * 1 + 0.5 // velocidade
+  });
+}
+
+function desenhar() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(255,255,255,0.6)"; // cor mais visível
+  ctx.beginPath();
+  for (let i = 0; i < particulas.length; i++) {
+    let p = particulas[i];
+    ctx.moveTo(p.x, p.y);
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 10, true);
+  }
+  ctx.fill();
+  atualizar();
+}
+
+function atualizar() {
+  for (let i = 0; i < particulas.length; i++) {
+    let p = particulas[i];
+    p.y -= p.d; // movimento para cima
+    if (p.y < 0) {
+      p.y = canvas.height;
+      p.x = Math.random() * canvas.width;
+    }
+  }
+}
+
+setInterval(desenhar, 30);
+</script>
+
+</body>
+</html>

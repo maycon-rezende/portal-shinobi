@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nero vs Sanbi — A Batalha de Kirigakure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Shippori+Mincho+B1:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+SC:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black:   #04030a;
+      --void:    #020206;
+      --red:     #c0241a;
+      --crimson: #8b0000;
+      --ember:   #e05020;
+      --teal:    #1a7a8a;
+      --aqua:    #40b0c8;
+      --gold:    #c8943a;
+      --bone:    #d8ccc0;
+      --atom:    #7040c8;
+      --atom2:   #a060ff;
+      --gr:      rgba(192,36,26,0.45);
+      --ga:      rgba(112,64,200,0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--bone);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      overflow-x: hidden;
+    }
+
+    #cd { width:7px; height:7px; background:var(--red); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:screen; }
+    #cr { width:30px; height:30px; border:1px solid rgba(192,36,26,.5); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .1s; }
+
+    #particles { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 4rem;
+      background:linear-gradient(to bottom, rgba(2,2,6,.97) 60%, transparent);
+      backdrop-filter:blur(4px);
+      border-bottom:1px solid rgba(192,36,26,.1);
+    }
+    .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.2em; color:var(--red); text-decoration:none; }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a { font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.25em; color:rgba(216,204,192,.5); text-decoration:none; transition:color .3s; }
+    .nav-links a:hover { color:var(--red); }
+
+    #hero {
+      position:relative; min-height:100vh;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      overflow:hidden; padding: 8rem 2rem 4rem;
+    }
+
+    #hero-bg {
+      position:absolute; inset:0;
+      background-image: url('img/sanbi1.png');
+      background-size:cover; background-position:center center;
+      filter:brightness(.35) saturate(1.3) contrast(1.1);
+      transform:scale(1.05);
+      animation:heroPulse 18s ease-in-out infinite alternate;
+    }
+    @keyframes heroPulse {
+      from { transform:scale(1.05); filter:brightness(.35) saturate(1.3); }
+      to   { transform:scale(1.12); filter:brightness(.28) saturate(1.5); }
+    }
+
+    #hero::before {
+      content:''; position:absolute; inset:0; z-index:1;
+      background:
+        linear-gradient(to bottom, rgba(2,2,6,.7) 0%, transparent 30%, transparent 50%, rgba(2,2,6,1) 100%),
+        radial-gradient(ellipse at 50% 40%, rgba(192,36,26,.18) 0%, transparent 60%);
+    }
+    #hero::after {
+      content:''; position:absolute; inset:0; z-index:1;
+      background:radial-gradient(ellipse at 70% 30%, rgba(112,64,200,.1) 0%, transparent 55%);
+    }
+
+    .scanlines {
+      position:absolute; inset:0; z-index:2; pointer-events:none;
+      background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.08) 2px, rgba(0,0,0,.08) 4px);
+    }
+
+    .lightning-wrap { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+    .bolt { position:absolute; width:1px; background:linear-gradient(to bottom, transparent, var(--red), transparent); opacity:0; animation:boltFlash 6s ease-in-out infinite; }
+    .bolt:nth-child(1) { height:60%; left:20%; top:5%; animation-delay:0s; }
+    .bolt:nth-child(2) { height:40%; left:55%; top:20%; animation-delay:1.8s; }
+    .bolt:nth-child(3) { height:50%; left:80%; top:0; animation-delay:3.5s; }
+    .bolt:nth-child(4) { height:35%; left:38%; top:30%; animation-delay:5s; }
+    @keyframes boltFlash {
+      0%,95%,100% { opacity:0; }
+      96% { opacity:.8; } 97% { opacity:.2; } 98% { opacity:.9; } 99% { opacity:.1; }
+    }
+
+    .hero-content { position:relative; z-index:3; text-align:center; max-width:900px; }
+
+    .hero-event-tag { font-family:'Cormorant SC',serif; font-size:.68rem; letter-spacing:.6em; color:var(--teal); margin-bottom:1.5rem; opacity:0; animation:dropIn 1s .3s ease forwards; }
+
+    .hero-vs { display:flex; align-items:center; justify-content:center; gap:2rem; margin-bottom:1.5rem; opacity:0; animation:dropIn 1.1s .6s ease forwards; }
+    .hero-vs-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem, 8vw, 6.5rem); line-height:.9; letter-spacing:.05em; }
+    .vs-nero  { color:#fff; text-shadow:0 0 60px rgba(192,36,26,.6), 0 0 120px rgba(192,36,26,.2); }
+    .vs-sep   { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.5rem,4vw,3rem); color:var(--gold); opacity:.6; }
+    .vs-sanbi { color:var(--teal); text-shadow:0 0 60px rgba(26,122,138,.6); }
+
+    .hero-subtitle { font-family:'Cormorant SC',serif; font-size:.8rem; letter-spacing:.35em; color:var(--gold); margin-bottom:2rem; opacity:0; animation:dropIn 1s .9s ease forwards; }
+    .hero-quote { font-style:italic; font-size:1.1rem; line-height:1.9; color:rgba(216,204,192,.6); max-width:540px; margin:0 auto; opacity:0; animation:dropIn 1s 1.2s ease forwards; }
+
+    .energy-bar { display:flex; justify-content:center; gap:.4rem; margin-top:2.5rem; opacity:0; animation:dropIn 1s 1.5s ease forwards; }
+    .e-seg { width:18px; height:4px; background:var(--red); animation:energyPulse 1.5s ease-in-out infinite; }
+    .e-seg:nth-child(2n) { background:var(--atom); animation-delay:.3s; }
+    .e-seg:nth-child(3n) { background:var(--teal); animation-delay:.6s; }
+    @keyframes energyPulse { 0%,100%{opacity:.3;transform:scaleY(1);} 50%{opacity:1;transform:scaleY(1.8);} }
+    @keyframes dropIn { from{opacity:0;transform:translateY(-20px);} to{opacity:1;transform:translateY(0);} }
+
+    .scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:.5rem; opacity:0; animation:dropIn 1s 2s ease forwards; }
+    .scroll-hint span { font-family:'Cormorant SC',serif; font-size:.58rem; letter-spacing:.4em; color:rgba(216,204,192,.3); }
+    .sh-line { width:1px; height:50px; background:linear-gradient(to bottom, var(--red), transparent); animation:lineBreath 2s ease-in-out infinite; }
+    @keyframes lineBreath { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    .wrap { max-width:1100px; margin:0 auto; padding:0 3rem; }
+    .s-tag { font-family:'Cormorant SC',serif; font-size:.65rem; letter-spacing:.5em; color:var(--red); display:block; margin-bottom:.8rem; }
+    .s-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,5vw,4rem); letter-spacing:.06em; color:#fff; margin-bottom:2.5rem; line-height:1; }
+    .s-title span { color:var(--gold); }
+    .s-title em { color:var(--teal); font-style:normal; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+
+    #intro { padding:8rem 0 5rem; }
+    .intro-layout { display:grid; grid-template-columns:1fr 320px; gap:5rem; align-items:start; }
+    .intro-body p { font-size:1.05rem; line-height:2; color:rgba(216,204,192,.78); margin-bottom:1.3rem; }
+    .intro-body p strong { color:#fff; font-weight:600; }
+    .intro-body p em { color:var(--aqua); font-style:italic; }
+
+    .battle-card { border:1px solid rgba(192,36,26,.25); position:relative; overflow:hidden; }
+    .battle-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right, var(--crimson), var(--atom), var(--teal)); }
+    .bc-header { background:rgba(192,36,26,.08); padding:1.2rem 1.5rem; border-bottom:1px solid rgba(192,36,26,.15); }
+    .bc-title { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.15em; color:var(--red); }
+    .bc-row { display:flex; justify-content:space-between; padding:.8rem 1.5rem; border-bottom:1px solid rgba(216,204,192,.05); }
+    .bc-row:last-child { border-bottom:none; }
+    .bc-k { font-family:'Cormorant SC',serif; font-size:.6rem; letter-spacing:.25em; color:rgba(216,204,192,.35); }
+    .bc-v { font-size:.88rem; color:var(--bone); text-align:right; max-width:60%; }
+
+    #batalha { padding:7rem 0; }
+    .battle-timeline { position:relative; margin-top:3rem; }
+    .battle-timeline::before { content:''; position:absolute; left:28px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--red), var(--atom), var(--teal), transparent); }
+
+    .bt-item { display:grid; grid-template-columns:60px 1fr; gap:2rem; margin-bottom:4rem; align-items:start; }
+    .bt-item:last-child { margin-bottom:0; }
+    .bt-node-wrap { display:flex; flex-direction:column; align-items:center; padding-top:.3rem; }
+    .bt-node { width:16px; height:16px; border-radius:50%; border:2px solid var(--red); background:var(--void); position:relative; z-index:2; flex-shrink:0; }
+    .bt-node.atom  { border-color:var(--atom2); box-shadow:0 0 12px rgba(160,96,255,.6); }
+    .bt-node.teal  { border-color:var(--teal);  box-shadow:0 0 12px rgba(26,122,138,.6); }
+    .bt-node.gold  { border-color:var(--gold);  box-shadow:0 0 12px rgba(200,148,58,.6); }
+    .bt-node::after { content:''; position:absolute; inset:-5px; border-radius:50%; border:1px solid rgba(192,36,26,.2); }
+    .bt-node.atom::after { border-color:rgba(160,96,255,.2); }
+    .bt-node.teal::after { border-color:rgba(26,122,138,.2); }
+
+    .bt-phase { font-family:'Cormorant SC',serif; font-size:.6rem; letter-spacing:.4em; color:var(--gold); margin-bottom:.5rem; }
+    .bt-heading { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:.06em; color:#fff; margin-bottom:.8rem; line-height:1; }
+    .bt-heading span { color:var(--red); }
+    .bt-heading em { color:var(--atom2); font-style:normal; }
+    .bt-text { font-size:.95rem; line-height:2; color:rgba(216,204,192,.7); }
+    .bt-text + .bt-text { margin-top:.8rem; }
+
+    .bt-pull { border-left:2px solid var(--red); padding-left:1.2rem; margin:1.2rem 0; font-style:italic; font-size:1rem; color:rgba(220,100,80,.8); line-height:1.8; }
+    .bt-pull.atom { border-color:var(--atom2); color:rgba(160,96,255,.8); }
+    .bt-pull.teal { border-color:var(--teal);  color:rgba(64,176,200,.8); }
+
+    .technique-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-top:1.2rem; }
+    .tc { border:1px solid rgba(216,204,192,.08); padding:1rem 1.2rem; position:relative; overflow:hidden; transition:border-color .3s, transform .3s; }
+    .tc:hover { border-color:rgba(216,204,192,.2); transform:translateY(-2px); }
+    .tc::before { content:''; position:absolute; left:0; top:0; width:2px; height:100%; }
+    .tc.red::before  { background:linear-gradient(to bottom, var(--red), transparent); }
+    .tc.atom::before { background:linear-gradient(to bottom, var(--atom2), transparent); }
+    .tc.teal::before { background:linear-gradient(to bottom, var(--teal), transparent); }
+    .tc.gold::before { background:linear-gradient(to bottom, var(--gold), transparent); }
+    .tc-name { font-family:'Bebas Neue',sans-serif; font-size:.95rem; letter-spacing:.1em; color:#fff; margin-bottom:.3rem; }
+    .tc-desc { font-size:.8rem; line-height:1.7; color:rgba(216,204,192,.55); }
+
+    #habilidades { padding:6rem 0; background:rgba(192,36,26,.025); }
+    .abilities-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2rem; }
+    .ab-card { padding:2rem 1.5rem; border:1px solid rgba(216,204,192,.07); position:relative; overflow:hidden; transition:transform .4s, border-color .4s; }
+    .ab-card:hover { transform:translateY(-4px); border-color:rgba(216,204,192,.2); }
+    .ab-card::after { content:''; position:absolute; inset:0; opacity:0; transition:opacity .4s; pointer-events:none; }
+    .ab-card.r::after  { background:radial-gradient(ellipse at 50% 0%, rgba(192,36,26,.14), transparent 70%); }
+    .ab-card.at::after { background:radial-gradient(ellipse at 50% 0%, rgba(112,64,200,.14), transparent 70%); }
+    .ab-card.tl::after { background:radial-gradient(ellipse at 50% 0%, rgba(26,122,138,.14), transparent 70%); }
+    .ab-card.go::after { background:radial-gradient(ellipse at 50% 0%, rgba(200,148,58,.12), transparent 70%); }
+    .ab-card:hover::after { opacity:1; }
+    .ab-icon { font-size:2rem; margin-bottom:1rem; line-height:1; }
+    .ab-name { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.1em; color:#fff; margin-bottom:.3rem; }
+    .ab-jp   { font-family:'Cormorant SC',serif; font-size:.6rem; letter-spacing:.3em; margin-bottom:.8rem; }
+    .r  .ab-jp { color:var(--red); }
+    .at .ab-jp { color:var(--atom2); }
+    .tl .ab-jp { color:var(--teal); }
+    .go .ab-jp { color:var(--gold); }
+    .ab-desc { font-size:.85rem; line-height:1.8; color:rgba(216,204,192,.6); }
+
+    #galeria { padding:7rem 0; }
+    .looper-wrap { position:relative; overflow:hidden; margin-top:3rem; }
+    .looper-wrap::before, .looper-wrap::after { content:''; position:absolute; top:0; bottom:0; width:100px; z-index:2; pointer-events:none; }
+    .looper-wrap::before { left:0;  background:linear-gradient(to right, var(--void), transparent); }
+    .looper-wrap::after  { right:0; background:linear-gradient(to left,  var(--void), transparent); }
+
+    .looper-track { display:flex; gap:1.2rem; width:max-content; animation:loopFwd 30s linear infinite; }
+    .looper-track:hover { animation-play-state:paused; }
+    .looper-track.rev { animation:loopRev 36s linear infinite; }
+    .looper-track.rev:hover { animation-play-state:paused; }
+    @keyframes loopFwd { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes loopRev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+
+    .g-slot { width:240px; height:300px; flex-shrink:0; position:relative; overflow:hidden; border:1px solid rgba(216,204,192,.1); cursor:pointer; transition:border-color .3s; }
+    .g-slot:hover { border-color:rgba(192,36,26,.5); }
+    .g-slot img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s, filter .5s; filter:saturate(.85) brightness(.8); }
+    .g-slot:hover img { transform:scale(1.07); filter:saturate(1.1) brightness(1); }
+
+    .g-ph { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.7rem; transition:transform .5s; }
+    .g-slot:hover .g-ph { transform:scale(1.04); }
+    .g-ph-icon { font-size:2rem; opacity:.3; }
+    .g-ph-label { font-family:'Cormorant SC',serif; font-size:.58rem; letter-spacing:.22em; color:rgba(216,204,192,.35); text-align:center; padding:0 .8rem; }
+
+    .gp1 { background:linear-gradient(140deg,#180202,#220404,#080208); }
+    .gp2 { background:linear-gradient(140deg,#060210,#0a0418,#04020c); }
+    .gp3 { background:linear-gradient(140deg,#021018,#041820,#020810); }
+    .gp4 { background:linear-gradient(140deg,#100800,#180e00,#080600); }
+    .gp5 { background:linear-gradient(140deg,#0c0418,#140620,#080210); }
+    .gp6 { background:linear-gradient(140deg,#180a02,#201002,#100604); }
+    .gp7 { background:linear-gradient(140deg,#020e16,#04141e,#020810); }
+    .gp8 { background:linear-gradient(140deg,#140214,#1c041c,#0c020c); }
+
+    .g-cap { position:absolute; bottom:0; left:0; right:0; padding:.8rem 1rem; background:linear-gradient(to top, rgba(2,2,6,.9), transparent); font-family:'Cormorant SC',serif; font-size:.58rem; letter-spacing:.18em; color:var(--gold); opacity:0; transform:translateY(4px); transition:opacity .3s, transform .3s; }
+    .g-slot:hover .g-cap { opacity:1; transform:translateY(0); }
+    .looper-row2 { margin-top:1.2rem; }
+
+    #lb { position:fixed; inset:0; z-index:1000; background:rgba(2,2,6,.96); display:none; align-items:center; justify-content:center; backdrop-filter:blur(10px); }
+    #lb.open { display:flex; }
+    #lb img { max-width:88vw; max-height:88vh; object-fit:contain; border:1px solid rgba(192,36,26,.3); box-shadow:0 0 60px rgba(192,36,26,.2); }
+    #lb-x { position:absolute; top:1.5rem; right:2rem; font-size:2rem; color:rgba(216,204,192,.4); background:none; border:none; cursor:pointer; transition:color .3s; }
+    #lb-x:hover { color:var(--red); }
+
+    #aftermath { padding:7rem 0; }
+    .aftermath-banner { position:relative; padding:5rem 4rem; border:1px solid rgba(216,204,192,.08); text-align:center; overflow:hidden; }
+    .aftermath-banner::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 20% 50%, rgba(192,36,26,.08), transparent 55%), radial-gradient(ellipse at 80% 50%, rgba(112,64,200,.07), transparent 55%); }
+    .aftermath-banner::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right, transparent, var(--red), var(--atom2), var(--teal), transparent); }
+    .aft-icon { font-size:3.5rem; margin-bottom:1.5rem; filter:drop-shadow(0 0 20px rgba(192,36,26,.5)); }
+    .aft-text { font-size:clamp(1rem,2.5vw,1.5rem); font-style:italic; line-height:2; color:rgba(216,204,192,.75); max-width:700px; margin:0 auto 1.5rem; }
+    .aft-text strong { color:var(--atom2); font-style:normal; }
+    .aft-sig { font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.4em; color:var(--gold); }
+
+    footer { padding:3rem 2rem; text-align:center; border-top:1px solid rgba(216,204,192,.06); }
+    .f-logo { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:.15em; color:var(--red); margin-bottom:.7rem; }
+    .f-text { font-size:.75rem; color:rgba(216,204,192,.22); letter-spacing:.08em; line-height:1.8; }
+    .f-text a { color:var(--teal); text-decoration:none; }
+
+    @media(max-width:900px){
+      nav { padding:1rem 2rem; }
+      .intro-layout { grid-template-columns:1fr; gap:3rem; }
+      .abilities-grid { grid-template-columns:1fr 1fr; }
+      .technique-cards { grid-template-columns:1fr; }
+      .bt-item { grid-template-columns:44px 1fr; gap:1.2rem; }
+      .aftermath-banner { padding:3rem 2rem; }
+      .wrap { padding:0 1.5rem; }
+    }
+    @media(max-width:600px){
+      .nav-links { display:none; }
+      .hero-vs { flex-direction:column; gap:.8rem; }
+      .abilities-grid { grid-template-columns:1fr; }
+      .g-slot { width:190px; height:240px; }
+    }
+
+   /* Galeria principal */
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* Galeria principal */
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* Galeria principal */
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* Galeria principal */
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+#galeria {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Faixa que desliza */
+.looper-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.looper-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLoop 40s linear infinite;
+}
+
+.looper-track.rev {
+  animation-direction: reverse;
+}
+
+/* Cada slot de foto */
+.photo-slot {
+  flex: 0 0 auto;
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.photo-slot img.photo-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(74,158,186,0.5);
+  transition: transform 0.3s ease;
+}
+
+.photo-slot img.photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Legenda */
+.photo-cap {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(200,216,232,0.8);
+}
+
+/* Placeholders (quando não há imagem) */
+.photo-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed rgba(200,216,232,0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,216,232,0.6);
+  font-size: 0.8rem;
+}
+
+/* Animação de looping */
+@keyframes scrollLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="musicas/09.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+<!-- CANVAS -->
+<canvas id="particles"></canvas>
+
+<!-- CURSOR -->
+<div id="cd"></div>
+<div id="cr"></div>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <button id="lb-x">✕</button>
+  <img id="lb-img" src="" alt=""/>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">黒崎 · Kurosaki Nero</a>
+  <ul class="nav-links">
+    <li><a href="index2.html">Inicio</a></li>
+    <li><a href="#intro">Contexto</a></li>
+    <li><a href="#batalha">A Batalha</a></li>
+    <li><a href="#habilidades">Habilidades</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#aftermath">Desfecho</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div id="hero-bg"></div>
+  <div class="scanlines"></div>
+  <div class="lightning-wrap">
+    <div class="bolt"></div>
+    <div class="bolt"></div>
+    <div class="bolt"></div>
+    <div class="bolt"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-event-tag">Kirigakure no Sato · Registro de Batalha · Rank S</p>
+    <div class="hero-vs">
+      <div class="hero-vs-name vs-nero">NERO</div>
+      <div class="vs-sep">VS</div>
+      <div class="hero-vs-name vs-sanbi">三尾</div>
+    </div>
+    <p class="hero-subtitle">UchiHyuuga Kurosaki Nero · Contra o Sanbi · A Batalha de Kirigakure</p>
+    <p class="hero-quote">
+      "Ele chegou sozinho.<br/>
+      Não havia plano. Não havia reforços.<br/>
+      Havia apenas Nero — e a decisão de que<br/>
+      a Vila da Névoa não cairia naquele dia."
+    </p>
+    <div class="energy-bar">
+      <div class="e-seg"></div><div class="e-seg"></div><div class="e-seg"></div>
+      <div class="e-seg"></div><div class="e-seg"></div><div class="e-seg"></div>
+      <div class="e-seg"></div><div class="e-seg"></div><div class="e-seg"></div>
+      <div class="e-seg"></div><div class="e-seg"></div><div class="e-seg"></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Leia a batalha</span>
+    <div class="sh-line"></div>
+  </div>
+</section>
+
+<!-- CONTEXTO -->
+<section id="intro">
+  <div class="wrap">
+    <div class="intro-layout reveal">
+      <div class="intro-body">
+        <span class="s-tag">Contexto</span>
+        <h2 class="s-title">O Dia em que<br/><span>Kiri Tremeu</span></h2>
+        <p>Era um dia comum nas termas perto da casa de <strong>Mei Terumi</strong> — um pouco afastada da vila, onde o mundo ainda parecia quieto. Nero estava lá. O que viera como visita se tornaria, em minutos, a batalha mais brutal que Kirigakure jamais testemunhou dentro de seus próprios muros.</p>
+        <p>O rugido chegou primeiro. Um som que não era de nenhum animal mortal — grave, úmido, violento — que fez vibrar o chão, as águas termais e os ossos de quem estava próximo. <em>O Sanbi havia se libertado.</em></p>
+        <p>Nero olhou na direção da vila. Olhou para Mei. Disse apenas uma coisa:</p>
+        <p><strong>"Protege os civis."</strong></p>
+        <p>E usou o <strong>Hiraishin</strong> para desaparecer em fração de segundo — direto para o epicentro do caos. Sozinho. Sem hesitar.</p>
+      </div>
+      <div class="battle-card reveal">
+        <div class="bc-header"><div class="bc-title">⚔ Ficha da Batalha</div></div>
+        <div class="bc-row"><span class="bc-k">Local</span><span class="bc-v">Kirigakure no Sato</span></div>
+        <div class="bc-row"><span class="bc-k">Ameaça</span><span class="bc-v">Sanbi — Três Caudas (三尾)</span></div>
+        <div class="bc-row"><span class="bc-k">Combatente</span><span class="bc-v">UchiHyuuga Kurosaki Nero</span></div>
+        <div class="bc-row"><span class="bc-k">Aliados</span><span class="bc-v">Nenhum (combate solo)</span></div>
+        <div class="bc-row"><span class="bc-k">Baixas Civis</span><span class="bc-v">Minimizadas por Mei Terumi</span></div>
+        <div class="bc-row"><span class="bc-k">Resultado</span><span class="bc-v">Sanbi selado — Vitória</span></div>
+        <div class="bc-row"><span class="bc-k">Observação</span><span class="bc-v">Presença estranha detectada pós-batalha</span></div>
+        <div class="bc-row"><span class="bc-k">Rank</span><span class="bc-v">S — Ameaça Nacional</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BATALHA TIMELINE -->
+<section id="batalha">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="s-tag">Registro de Combate</span>
+      <h2 class="s-title">A <span>Batalha</span><br/>Fase a Fase</h2>
+    </div>
+    <div class="battle-timeline">
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node"></div></div>
+        <div>
+          <div class="bt-phase">Fase 01 · Chegada</div>
+          <h3 class="bt-heading"><span>Hiraishin —</span> O Raio que Antecede a Tempestade</h3>
+          <p class="bt-text">Nero chegou a Kirigakure em fração de segundo. O que encontrou era caos puro: construções destruídas, shinobi da vila sendo arremessados por ondas de chakra bestial, e no centro de tudo — o <strong>Sanbi</strong>, a Besta de Três Caudas, colossal, furioso, movendo-se pela vila como um tsunami com consciência própria.</p>
+          <p class="bt-text">Não havia tempo para estratégia. Nero ativou o <strong>Mangekyō Sharingan Eterno</strong> imediatamente — os olhos vermelhos com o padrão de Átomo pulsando com uma intensidade que fazia o ar ao redor distorcer.</p>
+          <div class="bt-pull">O Sanbi virou seus três olhos para Nero.<br/>Nero não moveu um músculo.</div>
+        </div>
+      </div>
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node atom"></div></div>
+        <div>
+          <div class="bt-phase">Fase 02 · Abertura</div>
+          <h3 class="bt-heading"><em>Ōmegagan</em> — Visão Além da Visão</h3>
+          <p class="bt-text">Com o <strong>Byakugan Ômega</strong> ativo em paralelo ao Mangekyō, Nero mapeou instantaneamente toda a estrutura de chakra do Sanbi — seus pontos de maior concentração, os padrões de ataque, a direção das caudas. Uma análise que levaria minutos para qualquer outro ninja levou décimos de segundo para Nero.</p>
+          <p class="bt-text">O Sanbi atacou com uma investida massiva — suas três caudas varrendo a área ao mesmo tempo. Nero usou o Hiraishin em micromovimentos, reposicionando-se entre os impactos, lendo cada trajetória antes que ela acontecesse.</p>
+          <div class="technique-cards">
+            <div class="tc atom"><div class="tc-name">Byakugan Ômega</div><div class="tc-desc">Visão 360° com leitura de chakra em tempo real. Mapeia estrutura interna do Sanbi.</div></div>
+            <div class="tc red"><div class="tc-name">Hiraishin — Micromovimento</div><div class="tc-desc">Teletransporte em frações de segundo para evasão entre os impactos das caudas.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node"></div></div>
+        <div>
+          <div class="bt-phase">Fase 03 · Escalada</div>
+          <h3 class="bt-heading">Os <span>Cinco Elementos</span> Despertam</h3>
+          <p class="bt-text">Nero começou a responder. Katon, Suiton, Futon, Doton, Raiton — todos os cinco elementos e suas variações elementais foram lançados em sequência rápida, testando as defesas do Sanbi, buscando aberturas. O campo de batalha em Kirigakure virou um inferno multielemental.</p>
+          <p class="bt-text">O Sanbi era resistente a ataques diretos — sua carapaça e seu chakra bestial absorviam ou desviavam a maioria dos golpes. Nero mudou a abordagem: em vez de atacar o corpo, começou a usar os elementos para controlar o espaço — limitando os movimentos da besta, criando zonas de pressão.</p>
+          <div class="bt-pull">Não era mais uma briga.<br/>Era uma questão de geometria.</div>
+        </div>
+      </div>
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node atom"></div></div>
+        <div>
+          <div class="bt-phase">Fase 04 · Técnica Especial</div>
+          <h3 class="bt-heading">Fênix de Lava —<br/><em>Enton · Yōton Fusion</em></h3>
+          <p class="bt-text">O momento mais devastador da batalha. Nero combinou <strong>Enton</strong> — a chama negra indestrutível — com <strong>Yōton</strong>, a lava que aprendera com Mei, criando uma técnica única: a <em>Fênix de Lava Negra</em>.</p>
+          <p class="bt-text">Uma ave colossal de fogo negro e magma vivo disparou contra o Sanbi. O calor era tão intenso que vaporizou a água ao redor em um raio de centenas de metros. A névoa de Kirigakure desapareceu temporariamente do campo de batalha.</p>
+          <p class="bt-text">O ataque atingiu o Sanbi em cheio, forçando a besta pela primeira vez a recuar — um rugido de dor que ecoou por toda a costa da Vila da Névoa.</p>
+          <div class="bt-pull">O céu de Kiri ficou laranja por segundos.<br/>A névoa cedeu para a chama.</div>
+          <div class="technique-cards">
+            <div class="tc red"><div class="tc-name">Enton — Chama Negra</div><div class="tc-desc">Fogo indestrutível que consome tudo. Não pode ser apagado por meios convencionais.</div></div>
+            <div class="tc gold"><div class="tc-name">Fênix de Lava Negra</div><div class="tc-desc">Fusão de Enton + Yōton. Ave de magma e chama negra. Técnica única de Kurosaki Nero.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node atom"></div></div>
+        <div>
+          <div class="bt-phase">Fase 05 · Susanoo</div>
+          <h3 class="bt-heading"><em>Susanoo Perfeito —</em><br/>O Guerreiro Final</h3>
+          <p class="bt-text">Com o Sanbi reagrupando e preparando um ataque total — uma onda de chakra bestial capaz de destruir metade da vila — Nero invocou o <strong>Susanoo Perfeito</strong>. A armadura etérea colossal de chakra se materializou ao seu redor, tão alta quanto o próprio Sanbi, irradiando poder suficiente para fazer o solo afundar sob os pés de Nero.</p>
+          <p class="bt-text">O embate direto entre o Susanoo e o Sanbi sacudiu as estruturas de toda Kirigakure. Prédios desabaram. O mar ao redor da ilha da vila formou ondas massivas. Por um momento, parecia que a vila inteira seria engolida.</p>
+          <p class="bt-text">Mas o Susanoo de Nero segurou. E começou a avançar.</p>
+          <div class="bt-pull teal">O Susanoo caminhou para frente.<br/>O Sanbi, pela primeira vez, bateu em recuo.</div>
+        </div>
+      </div>
+
+      <div class="bt-item reveal">
+        <div class="bt-node-wrap"><div class="bt-node teal"></div></div>
+        <div>
+          <div class="bt-phase">Fase 06 · Conclusão</div>
+          <h3 class="bt-heading">O <span>Selo</span> — Sanbi Contido</h3>
+          <p class="bt-text">Com o Sanbi enfraquecido pelo combate e imobilizado pelo Susanoo, Nero desmaterializou a armadura e executou a sequência de selos de contenção. Usando seu conhecimento de fuinjutsu — combinado com a leitura precisa do Byakugan Ômega — ele forçou o Sanbi de volta ao seu jinchūriki: <strong>Yagura, o Quarto Mizukage</strong>.</p>
+          <p class="bt-text">O processo foi violento. O Sanbi resistiu até o último momento, suas três caudas convulsionando, seu rugido fazendo rachar as pedras ao redor. Mas o selo fechou.</p>
+          <p class="bt-text">O silêncio que seguiu foi absoluto. Kirigakure estava em ruínas parciais, mas de pé. E Nero estava no centro do campo de batalha — exausto, de joelhos, mas vivo.</p>
+          <div class="bt-pull teal">A névoa voltou lentamente.<br/>Como se a própria vila respirasse de alívio.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HABILIDADES -->
+<section id="habilidades">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="s-tag">Arsenal de Nero</span>
+      <h2 class="s-title">Habilidades <span>Usadas</span><br/>na Batalha</h2>
+    </div>
+    <div class="abilities-grid reveal">
+      <div class="ab-card r">
+        <div class="ab-icon">👁️</div>
+        <div class="ab-name">Mangekyō Sharingan Eterno</div>
+        <div class="ab-jp">永遠の万華鏡写輪眼 · Átomo</div>
+        <p class="ab-desc">Padrão de Átomo. Não sofre perda de visão por uso excessivo. Poderes únicos ligados à estrutura atômica do chakra — percepção e manipulação em nível subatômico.</p>
+      </div>
+      <div class="ab-card at">
+        <div class="ab-icon">⚪</div>
+        <div class="ab-name">Byakugan Ômega</div>
+        <div class="ab-jp">Ōmegagan · Beyond the Byakugan</div>
+        <p class="ab-desc">Evolução suprema do Byakugan. Visão 360° sem ponto cego, leitura de chakra em tempo real e mapeamento tridimensional completo da estrutura interna de qualquer ser.</p>
+      </div>
+      <div class="ab-card at">
+        <div class="ab-icon">🌌</div>
+        <div class="ab-name">Susanoo Perfeito</div>
+        <div class="ab-jp">完璧な須佐能乎</div>
+        <p class="ab-desc">Armadura colossal de chakra em sua forma mais completa. Capaz de absorver e redirecionar o chakra bestial de uma Besta de Cauda. Nunca antes invocada dentro de Kirigakure.</p>
+      </div>
+      <div class="ab-card r">
+        <div class="ab-icon">🔥</div>
+        <div class="ab-name">Enton — Chama Negra</div>
+        <div class="ab-jp">炎遁 · Black Flame</div>
+        <p class="ab-desc">Fogo negro indestrutível. Não pode ser extinto por meios convencionais. Queima enquanto houver material para consumir — incluindo outros ninjutsu de fogo.</p>
+      </div>
+      <div class="ab-card go">
+        <div class="ab-icon">🌋</div>
+        <div class="ab-name">Fênix de Lava Negra</div>
+        <div class="ab-jp">溶炎遁 · Enton-Yōton Fusion</div>
+        <p class="ab-desc">Técnica original de Nero. Fusão de Enton e Yōton aprendida com Mei Terumi. Uma fênix de magma e chama negra viva — o ataque mais poderoso da batalha.</p>
+      </div>
+      <div class="ab-card tl">
+        <div class="ab-icon">⚡</div>
+        <div class="ab-name">Hiraishin</div>
+        <div class="ab-jp">飛雷神 · Flying Thunder God</div>
+        <p class="ab-desc">Teletransporte instantâneo. Usado durante toda a batalha para evasão e reposicionamento. Chegada a Kirigakure em segundos a partir das termas de Mei.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="wrap reveal">
+    <span class="s-tag">Registros Visuais</span>
+    <h2 class="s-title">Galeria da <span>Batalha</span></h2>
+    <img src="img/sanbi1.png" alt="Sanbi vs Kurosakil" class="photo-img">
+    <p style="font-style:italic; color:rgba(216,204,192,.35); font-size:.88rem; margin-top:-1.8rem; margin-bottom:0">Passe o mouse para pausar · Clique para ampliar · Adicione suas artes nos slots</p>
+  </div>
+  <div class="looper-wrap reveal" style="margin-top:3rem;">
+</section>
+
+<!-- AFTERMATH -->
+<section id="aftermath">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="s-tag">Desfecho</span>
+      <h2 class="s-title">Após a <span>Tempestade</span></h2>
+    </div>
+    <div class="battle-timeline reveal" style="margin-top:3rem;">
+      <div class="bt-item">
+        <div class="bt-node-wrap"><div class="bt-node teal"></div></div>
+        <div>
+          <div class="bt-phase">Desfecho 01</div>
+          <h3 class="bt-heading">O <em>Silêncio</em> de Kiri</h3>
+          <p class="bt-text">Com o Sanbi selado novamente em Yagura, o chakra bestial dissipou-se lentamente. A destruição em Kirigakure era considerável — setores inteiros da vila haviam sido arrasados pelo impacto das caudas e pelo embate do Susanoo. Mas os civis estavam vivos, graças à ação rápida de Mei Terumi durante o combate.</p>
+          <p class="bt-text">Nero ficou no centro do campo de batalha por longos minutos. Exausto, os olhos ainda vibrando com o chakra do Mangekyō. Em silêncio.</p>
+        </div>
+      </div>
+      <div class="bt-item">
+        <div class="bt-node-wrap"><div class="bt-node teal"></div></div>
+        <div>
+          <div class="bt-phase">Desfecho 02</div>
+          <h3 class="bt-heading">A <span>Presença Estranha</span></h3>
+          <p class="bt-text">Foi quando percebeu. Algo no fundo da sua mente — tênue, quase imperceptível, como uma sombra atrás de um véu. Não era o chakra do Sanbi. Não era exaustão. Era uma <strong>presença</strong>.</p>
+          <p class="bt-text">Inteligente. Observadora. E muito, muito antiga.</p>
+          <p class="bt-text">O Byakugan Ômega não conseguia localizá-la. O Mangekyō não conseguia identificá-la. Era como se existisse num plano ligeiramente fora do alcance de qualquer dōjutsu.</p>
+          <div class="bt-pull atom">Nero soube, naquele momento,<br/>que a batalha com o Sanbi havia sido apenas o começo.</div>
+        </div>
+      </div>
+    </div>
+    <div class="aftermath-banner reveal" style="margin-top:5rem;">
+      <div class="aft-icon">👁️</div>
+      <p class="aft-text">
+        "Ele venceu o Sanbi sozinho.<br/>
+        Selou a Besta de Três Caudas dentro de seus próprios muros.<br/>
+        Salvou Kirigakure.<br/>
+        Mas quando a névoa voltou e o silêncio desceu —<br/>
+        havia algo observando de dentro.<br/>
+        <strong>E o que quer que fosse... havia acordado durante a batalha.</strong>"
+      </p>
+      <div class="aft-sig">Registros de Kirigakure · Arquivo Confidencial · Pós-Batalha do Sanbi</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">黒崎 · KUROSAKI NERO · 三尾の戦い</div>
+  <p class="f-text">
+    Universo fan fiction original · <a href="#">Naruto</a> criado por Masashi Kishimoto<br/>
+    UchiHyuuga Kurosaki Nero é personagem original · Parte do universo <strong>Kurosaki &amp; Mei</strong>
+  </p>
+</footer>
+<script>
+// ── PARTICLES CANVAS ──
+(function(){
+  const c = document.getElementById('particles');
+  const ctx = c.getContext('2d');
+  let W, H, pts=[], t=0;
+
+  function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+
+  const colors = ['rgba(192,36,26,', 'rgba(112,64,200,', 'rgba(26,122,138,', 'rgba(200,148,58,'];
+  for(let i=0;i<120;i++){
+    pts.push({
+      x:Math.random()*2000, y:Math.random()*1500,
+      r:Math.random()*.8+.2,
+      vx:(Math.random()-.5)*.2,
+      vy:-Math.random()*.15-.03,
+      a:Math.random()*.3+.05,
+      c:colors[Math.floor(Math.random()*colors.length)]
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const g = ctx.createRadialGradient(W/2,H*.4,0,W/2,H/2,W*.7);
+    g.addColorStop(0,'rgba(192,36,26,0.04)');
+    g.addColorStop(1,'rgba(2,2,6,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.y<-5) p.y=H+5;
+      if(p.x>W+5) p.x=-5;
+      if(p.x<-5) p.x=W+5;
+      ctx.beginPath();
+      ctx.arc(p.x%W, p.y%H, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.c + p.a + ')';
+      ctx.fill();
+    });
+    t+=.016;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── CURSOR ──
+(function(){
+  const d=document.getElementById('cd'), r=document.getElementById('cr');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function loop(){
+    rx+=(mx-rx)*0.1; ry+=(my-ry)*0.1;
+    d.style.left=mx+'px'; d.style.top=my+'px';
+    r.style.left=rx+'px'; r.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+})();
+
+// ── SCROLL REVEAL ──
+(function(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+
+// ── LOOPER DUPLICATE ──
+(function(){
+  ['gt1','gt2'].forEach(id=>{
+    const t=document.getElementById(id); if(!t) return;
+    Array.from(t.children).forEach(c=>t.appendChild(c.cloneNode(true)));
+  });
+})();
+
+// ── LIGHTBOX ──
+(function(){
+  const lb=document.getElementById('lb');
+  const lbImg=document.getElementById('lb-img');
+  document.getElementById('lb-x').addEventListener('click',()=>lb.classList.remove('open'));
+  lb.addEventListener('click',e=>{ if(e.target===lb) lb.classList.remove('open'); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
+  document.querySelectorAll('.g-slot').forEach(s=>{
+    s.addEventListener('click',()=>{
+      const img=s.querySelector('img');
+      if(img){ lbImg.src=img.src; lb.classList.add('open'); }
+    });
+  });
+})();
+
+// ── NAV HIGHLIGHT ──
+(function(){
+  const secs=document.querySelectorAll('section[id]');
+  const lks=document.querySelectorAll('.nav-links a');
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        lks.forEach(l=>l.style.color='');
+        lks.forEach(l=>{
+          if(l.getAttribute('href')==='#'+e.target.id) l.style.color='var(--red)';
+        });
+      }
+    });
+  },{threshold:.3});
+  secs.forEach(s=>io.observe(s));
+})();
+
+// ── HERO PARALLAX ──
+(function(){
+  const bg=document.getElementById('hero-bg');
+  window.addEventListener('scroll',()=>{
+    bg.style.transform=`scale(1.05) translateY(${window.scrollY*.25}px)`;
+  },{passive:true});
+})();
+</script>
+
+</body>
+</html>
