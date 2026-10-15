@@ -1,49 +1,80 @@
-// 🎯 Filtros por categoria
-const botoesFiltro = document.querySelectorAll(".filtros button");
+const botoesFiltro = document.querySelectorAll(".filtros-botoes button");
 const memorias = document.querySelectorAll(".memoria");
+const buscaMemorias = document.getElementById("buscarMemorias");
+const memoriasResultado = document.getElementById("memoriasResultado");
+const filtroInicial = document.querySelector(".filtros-botoes button[aria-pressed='true']");
+let filtroAtivo = filtroInicial?.dataset.filtro || "todos";
+
+const atualizarMemorias = () => {
+  const termo = buscaMemorias?.value.trim().toLocaleLowerCase("pt-BR") || "";
+  let visiveis = 0;
+
+  memorias.forEach(memoria => {
+    const grupo = memoria.dataset.grupo;
+    const imagem = memoria.querySelector("img");
+    const legenda = memoria.querySelector(".legenda-sobreposta")?.textContent || "";
+    const correspondeGrupo = filtroAtivo === "todos" || grupo === filtroAtivo;
+    const texto = `${imagem?.alt || ""} ${legenda} ${grupo || ""}`.toLocaleLowerCase("pt-BR");
+    const correspondeBusca = !termo || texto.includes(termo);
+    const mostrar = correspondeGrupo && correspondeBusca;
+
+    memoria.hidden = !mostrar;
+    if (mostrar) visiveis += 1;
+  });
+
+  if (memoriasResultado) {
+    memoriasResultado.textContent = `${visiveis} ${visiveis === 1 ? "memória encontrada" : "memórias encontradas"}.`;
+  }
+};
 
 botoesFiltro.forEach(botao => {
   botao.addEventListener("click", () => {
-    botoesFiltro.forEach(btn => btn.classList.remove("ativo"));
-    botao.classList.add("ativo");
-
-    const filtro = botao.getAttribute("data-filtro");
-
-    memorias.forEach(memoria => {
-      const grupo = memoria.getAttribute("data-grupo");
-      memoria.style.display = (filtro === "todos" || grupo === filtro) ? "block" : "none";
+    filtroAtivo = botao.dataset.filtro || "todos";
+    botoesFiltro.forEach(btn => {
+      btn.setAttribute("aria-pressed", String(btn === botao));
     });
+    atualizarMemorias();
   });
 });
 
-// 🔍 Lightbox
+buscaMemorias?.addEventListener("input", atualizarMemorias);
+atualizarMemorias();
+
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
 const legenda = document.getElementById("legendaLightbox");
 const fechar = document.querySelector(".lightbox .fechar");
 
-if (lightbox && lightboxImg && legenda) {
+if (lightbox instanceof HTMLDialogElement && lightboxImg && legenda && fechar) {
+  let imagemAtiva = null;
+
+  const abrirLightbox = img => {
+    imagemAtiva = img;
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt;
+    const sobreposta = img.parentElement?.querySelector(".legenda-sobreposta");
+    legenda.textContent = sobreposta?.textContent.trim() || img.alt;
+    lightbox.showModal();
+    fechar.focus();
+  };
+
   document.querySelectorAll("[data-ampliar]").forEach(img => {
-    img.addEventListener("click", () => {
-      lightbox.style.display = "flex";
-      lightbox.setAttribute("aria-hidden", "false");
-      lightboxImg.src = img.src;
-      const sobreposta = img.parentElement?.querySelector(".legenda-sobreposta");
-      legenda.textContent = sobreposta?.textContent || img.alt;
+    img.addEventListener("click", () => abrirLightbox(img));
+    img.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        abrirLightbox(img);
+      }
     });
   });
 
-  const fecharLightbox = () => {
-    lightbox.style.display = "none";
-    lightbox.setAttribute("aria-hidden", "true");
-  };
-
-  fechar?.addEventListener("click", fecharLightbox);
+  fechar.addEventListener("click", () => lightbox.close());
   lightbox.addEventListener("click", event => {
-    if (event.target === lightbox) fecharLightbox();
+    if (event.target === lightbox) lightbox.close();
   });
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") fecharLightbox();
+  lightbox.addEventListener("close", () => {
+    imagemAtiva?.focus();
+    imagemAtiva = null;
   });
 }
 
@@ -77,21 +108,30 @@ if ("IntersectionObserver" in window) {
 // 💫 Chakra flutuante
 window.addEventListener("load", () => {
   const canvas = document.getElementById("chakraCanvas");
-  if (!canvas) return;
+  if (!canvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  let width, height;
+  let width = 0;
+  let height = 0;
+  let animationFrame = 0;
   function ajustarCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   }
 
   ajustarCanvas();
   window.addEventListener("resize", ajustarCanvas);
 
-  const particulas = Array.from({ length: 500 }, () => ({
+  const quantidadeParticulas = window.innerWidth < 640 ? 45 : 90;
+  const particulas = Array.from({ length: quantidadeParticulas }, () => ({
     x: Math.random() * width,
     y: height + Math.random() * 200,
     r: Math.random() * 2 + 1,
@@ -100,6 +140,9 @@ window.addEventListener("load", () => {
   }));
 
   function animarChakra() {
+    animationFrame = 0;
+    if (document.hidden) return;
+
     ctx.clearRect(0, 0, width, height);
     particulas.forEach(p => {
       ctx.beginPath();
@@ -112,10 +155,17 @@ window.addEventListener("load", () => {
         p.x = Math.random() * width;
       }
     });
-    requestAnimationFrame(animarChakra);
+    animationFrame = requestAnimationFrame(animarChakra);
   }
 
-  animarChakra();
+  const iniciarAnimacao = () => {
+    if (!document.hidden && !animationFrame) {
+      animationFrame = requestAnimationFrame(animarChakra);
+    }
+  };
+
+  document.addEventListener("visibilitychange", iniciarAnimacao);
+  iniciarAnimacao();
 });
 
 

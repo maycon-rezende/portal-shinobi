@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore as memórias de Hinara e Kurosaki. Filtre as imagens por personagem e amplie cada momento da galeria." />
+  <meta name="theme-color" content="#1a237e" />
   <title>Galeria de Memórias — Portal Shinobi</title>
   <link rel="stylesheet" href="kunai-cursor.css" />
   <script src="kunai-cursor.js" defer></script>
@@ -51,6 +53,38 @@ body {
       padding: 1rem;
     }
 
+    .site-navigation {
+      display: contents;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+
+    .site-navigation nav[hidden] {
+      display: none;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 10000;
+      top: 0.5rem;
+      left: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #111;
+      background: #fff;
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    :focus-visible {
+      outline: 3px solid #1a237e;
+      outline-offset: 3px;
+    }
+
     nav a {
       color: white;
       text-decoration: none;
@@ -69,14 +103,44 @@ body {
 
     .filtros {
       text-align: center;
+      max-width: 720px;
       margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .busca-memorias {
+      display: grid;
+      gap: 0.5rem;
+      max-width: 480px;
+      margin: 0 auto 1rem;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .busca-memorias input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.7rem 0.85rem;
+      border: 2px solid #90caf9;
+      border-radius: 8px;
+      color: #111;
+      background: #fff;
+      font: inherit;
+    }
+
+    .filtros-botoes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
     .filtros button {
       background: #e3f2fd;
       border: 1px solid #90caf9;
       padding: 0.6rem 1.4rem;
-      margin: 0.5rem;
+      min-height: 44px;
+      margin: 0;
       border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
@@ -84,9 +148,26 @@ body {
     }
 
     .filtros button:hover,
-    .filtros button.ativo {
+    .filtros button[aria-pressed="true"] {
       background-color: #1a237e;
       color: white;
+    }
+
+    #memoriasResultado {
+      min-height: 1.6em;
+      margin-top: 0.75rem;
+    }
+
+    .memoria[hidden] {
+      display: none;
+    }
+
+    .imagem-legenda img[data-ampliar] {
+      cursor: zoom-in;
+    }
+
+    .imagem-legenda img[data-ampliar]:focus-visible {
+      outline-offset: -4px;
     }
 
     .galeria {
@@ -291,19 +372,125 @@ body {
   backface-visibility: hidden;
 }
 
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 3rem 1rem 1rem;
+  border: 0;
+  color: white;
+  background: rgba(0, 0, 0, 0.92);
+  text-align: center;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.lightbox img {
+  display: block;
+  max-width: min(100%, 1000px);
+  max-height: 78vh;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.lightbox p {
+  margin-top: 1rem;
+}
+
+.lightbox .fechar {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  color: white;
+  background: transparent;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .site-navigation {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: block;
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .nav-toggle {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    color: #fff;
+    background: transparent;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .site-navigation nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .site-navigation nav[hidden] {
+    display: none;
+  }
+
+  .site-navigation nav a {
+    display: block;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memoria,
+  .imagem-legenda img,
+  .aura-galeria {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
   </style>
-  <section class="filtros">
-    <button data-filtro="todos" class="ativo">✨ Todos</button>
-    <button data-filtro="kurosaki">🔥 Kurosaki</button>
-    <button data-filtro="hinara">🌸 Hinara</button>
-    <button data-filtro="casal">💫 Casal</button>
+  <a class="skip-link" href="#galeriaMemorias">Pular para as memórias</a>
+  <div class="site-navigation">
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navegacao-galeria">Menu <span aria-hidden="true">☰</span></button>
+<nav id="navegacao-galeria" aria-label="Navegação principal">
+  <a href="portal.html">Início</a>
+  <a href="kurosaki.html">Kurosaki</a>
+  <a href="hinara.html">Hinara</a>
+  <a href="galeria.html" class="ativo" aria-current="page">Galeria</a>
+</nav>
+  </div>
+  <section class="filtros" aria-label="Buscar e filtrar memórias">
+<label class="busca-memorias" for="buscarMemorias">
+  Buscar por personagem ou legenda
+  <input id="buscarMemorias" type="search" placeholder="Ex.: Hinara, missão..." autocomplete="off" aria-describedby="memoriasResultado" />
+</label>
+<div class="filtros-botoes" role="group" aria-label="Filtrar por personagem">
+  <button type="button" data-filtro="todos" aria-pressed="true">✨ Todos</button>
+  <button type="button" data-filtro="kurosaki" aria-pressed="false">🔥 Kurosaki</button>
+  <button type="button" data-filtro="hinara" aria-pressed="false">🌸 Hinara</button>
+  <button type="button" data-filtro="casal" aria-pressed="false">💫 Casal</button>
+</div>
+<p id="memoriasResultado" role="status" aria-live="polite"></p>
   </section>
 
-  <section class="galeria" id="galeriaMemorias">
+  <section class="galeria" id="galeriaMemorias" aria-label="Memórias do Portal Shinobi">
 
     <div class="memoria kurosaki" data-grupo="kurosaki">
       <div class="imagem-legenda">
-        <img id="kurosakiMemoria" src="imagens/kurosaki.png"  alt="Kurosaki observando" data-ampliar />
+        <img id="kurosakiMemoria" src="imagens/kurosaki.png" width="768" height="1152" alt="Kurosaki observando" data-ampliar tabindex="0" role="button" aria-haspopup="dialog" aria-label="Ampliar: Kurosaki observando" loading="lazy" decoding="async" />
         <div class="legenda-sobreposta">Silêncio entre as sombras da missão.</div>
       </div>
       <span class="selo-jutsu">🩸</span>
@@ -311,7 +498,7 @@ body {
 
     <div class="memoria hinara" data-grupo="hinara">
       <div class="imagem-legenda">
-        <img id="hinaraMemoria" src="imagens/deusa-dragao.png" alt="Hinara com luz ancestral" data-ampliar />
+        <img id="hinaraMemoria" src="imagens/deusa-dragao.jpg" width="768" height="1152" alt="Hinara com luz ancestral" data-ampliar tabindex="0" role="button" aria-haspopup="dialog" aria-label="Ampliar: Hinara com luz ancestral" loading="lazy" decoding="async" />
         <div class="legenda-sobreposta">A sabedoria que os dragões respeitam.</div>
       </div>
       <span class="selo-jutsu">🌙</span>
@@ -319,7 +506,7 @@ body {
 
     <div class="memoria casal" data-grupo="casal">
       <div class="imagem-legenda">
-        <img id="casalMemoria"  src="imagens/blusa rosa.png" alt="Hinara e Kurosaki em harmonia" data-ampliar />
+        <img id="casalMemoria" src="imagens/blusa%20rosa.png" width="768" height="1152" alt="Hinara e Kurosaki em harmonia" data-ampliar tabindex="0" role="button" aria-haspopup="dialog" aria-label="Ampliar: Hinara e Kurosaki em harmonia" loading="lazy" decoding="async" />
         <div class="legenda-sobreposta">Dois corações se cruzam no fim do dia.</div>
       </div>
       <span class="selo-jutsu">⛩️</span>
@@ -331,13 +518,13 @@ body {
     <a href="portal.html">← Voltar ao Início</a>
   </div>
 
-  <div id="lightbox" class="lightbox">
-    <span class="fechar">&times;</span>
-    <img id="lightboxImg" src="" alt="Imagem ampliada" />
+  <dialog id="lightbox" class="lightbox" aria-labelledby="legendaLightbox">
+    <button class="fechar" type="button" aria-label="Fechar imagem ampliada">&times;</button>
+    <img id="lightboxImg" src="" alt="" />
     <p id="legendaLightbox"></p>
-  </div>
+  </dialog>
 
-  <button class="botao-voltar" id="ativarNoturno" title="Modo Noturno">🌙</button>
+  <button class="botao-voltar" id="ativarNoturno" type="button" aria-label="Alternar modo noturno" title="Modo Noturno">🌙</button>
 
   <footer>
     &copy; 2025 Portal Shinobi. Criado com chakra, HTML e afeição ninja.
@@ -345,6 +532,22 @@ body {
 
  <script src="galeria.js" defer></script>
 <script>
+  const menuGaleria = document.querySelector(".nav-toggle");
+  const navegacaoGaleria = document.getElementById("navegacao-galeria");
+
+  menuGaleria?.addEventListener("click", () => {
+    const aberto = menuGaleria.getAttribute("aria-expanded") === "true";
+    menuGaleria.setAttribute("aria-expanded", String(!aberto));
+    navegacaoGaleria.hidden = aberto;
+  });
+
+  navegacaoGaleria?.addEventListener("click", (event) => {
+    if (event.target.closest("a") && window.matchMedia("(max-width: 640px)").matches) {
+      navegacaoGaleria.hidden = true;
+      menuGaleria.setAttribute("aria-expanded", "false");
+    }
+  });
+
   const kurosakiFotos = [
     "imagens/kurosaki.png",
     "imagens/uni-2.png",
